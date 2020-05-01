@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Perdiste"
+    android:background="@color/colorBackgroundDark">
+
+    <TextView
+        android:id="@+id/ganaste"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:text="Te han contagiado!"
+        android:textAlignment="center"
+        android:textColor="@color/colorTitles"
+        android:textSize="70dp"
+        />
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:text="Score: 800"
+        android:textColor="@color/colorTitles"
+        android:textSize="50dp"
+        android:layout_below="@+id/ganaste"
+        />
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/reiniciar"
+        android:id="@+id/reiniciar"
+        android:layout_below="@+id/score"
+        android:background="@color/colorBackgroundLight"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="70dp"
+        />
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/home"
+        android:id="@+id/home"
+        android:layout_below="@+id/score"
+        android:background="@color/colorBackgroundLight"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="90dp"
+        android:layout_marginTop="70dp"
+        />
+
+</RelativeLayout>

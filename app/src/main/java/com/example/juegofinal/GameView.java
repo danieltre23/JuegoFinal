@@ -26,6 +26,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Paint paint;
     private GameActivity activity;
     private Background background1;
+    private PauseButton pausebtn;
 
     public GameView(GameActivity activity, int screenX, int screenY) {
         super(activity);
@@ -40,6 +41,7 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setColor(Color.WHITE);
 
         background1 = new Background(screenX, screenY, getResources());
+        pausebtn = new PauseButton(getResources());
 
     }
 
@@ -58,16 +60,17 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void update () {
 
-        if (getHolder().getSurface().isValid()) {
-            Canvas canvas = getHolder().lockCanvas();
-            canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
-
-            getHolder().unlockCanvasAndPost(canvas);
-        }
-
     }
 
     private void draw () {
+
+        if (getHolder().getSurface().isValid()) {
+            Canvas canvas = getHolder().lockCanvas();
+            canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
+            canvas.drawBitmap(pausebtn.pause, pausebtn.x, pausebtn.y, paint);
+
+            getHolder().unlockCanvasAndPost(canvas);
+        }
 
     }
 
@@ -96,6 +99,35 @@ public class GameView extends SurfaceView implements Runnable {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (event.getX() > pausebtn.x && event.getX() < pausebtn.x + 100 && event.getY() > pausebtn.y && event.getY() < pausebtn.y + 100) {
+                    goToPause();
+                }
+                break;
+        }
+
+        return true;
+    }
+
+    public void goToWin () {
+        activity.startActivity(new Intent(activity, Ganaste.class));
+        activity.finish();
+    }
+
+    public void goToLose () {
+        activity.startActivity(new Intent(activity, Perdiste.class));
+        activity.finish();
+    }
+
+    public void goToPause () {
+        activity.startActivity(new Intent(activity, Pause.class));
+        activity.finish();
     }
 
 }

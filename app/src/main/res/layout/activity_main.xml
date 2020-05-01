@@ -48,7 +48,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
-        android:src="@drawable/DAMM"
+        android:src="@drawable/damm"
         />
 
     <ImageView
@@ -57,6 +57,7 @@
         android:src="@drawable/settings"
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
+        android:id="@+id/settings"
         />
 
 </RelativeLayout>
