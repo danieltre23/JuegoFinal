@@ -27,6 +27,8 @@ public class GameView extends SurfaceView implements Runnable {
     private GameActivity activity;
     private Background background1;
     private PauseButton pausebtn;
+    private perdisteButton perdisteBtn;
+    private ganasteButton ganasteBtn;
 
     public GameView(GameActivity activity, int screenX, int screenY) {
         super(activity);
@@ -42,6 +44,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         background1 = new Background(screenX, screenY, getResources());
         pausebtn = new PauseButton(getResources());
+        perdisteBtn = new perdisteButton(getResources());
+        ganasteBtn =new  ganasteButton(getResources());
+
 
     }
 
@@ -68,6 +73,8 @@ public class GameView extends SurfaceView implements Runnable {
             Canvas canvas = getHolder().lockCanvas();
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
             canvas.drawBitmap(pausebtn.pause, pausebtn.x, pausebtn.y, paint);
+            canvas.drawBitmap(ganasteBtn.ganaste, ganasteBtn.x, ganasteBtn.y, paint);
+            canvas.drawBitmap(perdisteBtn.perdiste, perdisteBtn.x, perdisteBtn.y, paint);
 
             getHolder().unlockCanvasAndPost(canvas);
         }
@@ -108,6 +115,12 @@ public class GameView extends SurfaceView implements Runnable {
             case MotionEvent.ACTION_DOWN:
                 if (event.getX() > pausebtn.x && event.getX() < pausebtn.x + 100 && event.getY() > pausebtn.y && event.getY() < pausebtn.y + 100) {
                     goToPause();
+                }
+                if (event.getX() > perdisteBtn.x && event.getX() < perdisteBtn.x + 100 && event.getY() > perdisteBtn.y && event.getY() < perdisteBtn.y + 100) {
+                    goToLose();
+                }
+                if (event.getX() > ganasteBtn.x && event.getX() < ganasteBtn.x + 100 && event.getY() > ganasteBtn.y && event.getY() < ganasteBtn.y + 100) {
+                    goToWin();
                 }
                 break;
         }
