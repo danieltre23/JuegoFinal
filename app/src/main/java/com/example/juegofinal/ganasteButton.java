@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 
 public class ganasteButton {
 
-    int x = 100, y = 200;
+    int x = 800, y = 200;
     Bitmap ganaste;
 
     ganasteButton(Resources res) {

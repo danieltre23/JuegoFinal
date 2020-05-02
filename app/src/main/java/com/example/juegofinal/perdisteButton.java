@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 
 public class perdisteButton {
 
-    int x = 50, y = 200;
+    int x = 200, y = 200;
     Bitmap perdiste;
 
     perdisteButton (Resources res) {
