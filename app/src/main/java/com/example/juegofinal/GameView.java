@@ -26,9 +26,9 @@ public class GameView extends SurfaceView implements Runnable {
     private Paint paint;
     private GameActivity activity;
     private Background background1;
-    private PauseButton pausebtn;
-    private perdisteButton perdisteBtn;
-    private ganasteButton ganasteBtn;
+    private Button pausebtn;
+    private Button perdisteBtn;
+    private Button ganasteBtn;
 
     public GameView(GameActivity activity, int screenX, int screenY) {
         super(activity);
@@ -42,10 +42,13 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setTextSize(128);
         paint.setColor(Color.WHITE);
 
+        // declare bg
         background1 = new Background(screenX, screenY, getResources());
-        pausebtn = new PauseButton(getResources());
-        perdisteBtn = new perdisteButton(getResources());
-        ganasteBtn =new  ganasteButton(getResources());
+
+        // declare buttons
+        pausebtn = new Button(getResources(), R.drawable.pause, 50,50);
+        perdisteBtn = new Button(getResources(), R.drawable.sick, 200, 200 );
+        ganasteBtn =new  Button(getResources(), R.drawable.smily, 800, 200);
 
 
     }
@@ -71,10 +74,14 @@ public class GameView extends SurfaceView implements Runnable {
 
         if (getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
+
+            //draw background
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
-            canvas.drawBitmap(pausebtn.pause, pausebtn.x, pausebtn.y, paint);
-            canvas.drawBitmap(ganasteBtn.ganaste, ganasteBtn.x, ganasteBtn.y, paint);
-            canvas.drawBitmap(perdisteBtn.perdiste, perdisteBtn.x, perdisteBtn.y, paint);
+
+            // draw buttons
+            perdisteBtn.draw(canvas);
+            ganasteBtn.draw(canvas);
+            pausebtn.draw(canvas);
 
             getHolder().unlockCanvasAndPost(canvas);
         }
@@ -113,13 +120,13 @@ public class GameView extends SurfaceView implements Runnable {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (event.getX() > pausebtn.x && event.getX() < pausebtn.x + 100 && event.getY() > pausebtn.y && event.getY() < pausebtn.y + 100) {
+                if (pausebtn.click(event)) {
                     goToPause();
                 }
-                if (event.getX() > perdisteBtn.x && event.getX() < perdisteBtn.x + 100 && event.getY() > perdisteBtn.y && event.getY() < perdisteBtn.y + 100) {
+                if (perdisteBtn.click(event)) {
                     goToLose();
                 }
-                if (event.getX() > ganasteBtn.x && event.getX() < ganasteBtn.x + 100 && event.getY() > ganasteBtn.y && event.getY() < ganasteBtn.y + 100) {
+                if (ganasteBtn.click(event)) {
                     goToWin();
                 }
                 break;
