@@ -53,6 +53,18 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
+    public int getScreenX() {
+        return screenX;
+    }
+
+    public int getScreenY() {
+        return screenY;
+    }
+
+    public Paint getPaint() {
+        return paint;
+    }
+
     @Override
     public void run() {
 
