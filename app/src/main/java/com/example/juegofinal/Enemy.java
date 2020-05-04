@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 public class Enemy extends Sprite {
 
+
     private Animation normal;
     private Animation left;
     private Animation right;
@@ -29,12 +30,17 @@ public class Enemy extends Sprite {
         return curr;
     }
 
-    Enemy(GameView game, int x1, int y1){
-        super(x1,y1,game.getScreenY()/9 ,game.getScreenY()/9);
+    Enemy(GameView game, int x1, int y1, Animation[] anims){
+        super(x1,y1,64,64);
         this.game = game;
         attacking = false;
 
         //create animations
+        normal = anims[0];
+        left = anims[1];
+        right = anims[2];
+        up = anims[3];
+        down = anims[4];
 
     }
 

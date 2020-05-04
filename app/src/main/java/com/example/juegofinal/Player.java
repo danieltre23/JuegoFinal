@@ -17,19 +17,30 @@ public class Player extends Sprite {
         return curr;
     }
 
-    Player(GameView game, int x1, int y1){
-        super(x1,y1,game.getScreenY()/9 ,game.getScreenY()/9);
+    Player(GameView game, int x1, int y1, Animation anims[]){
+        super(x1,y1,64,64);
         this.game = game;
 
         //create animations
+        normal = anims[0];
+        left = anims[1];
+        right = anims[2];
+        up = anims[3];
+        down = anims[4];
 
     }
 
-    Player(GameView game){
-        super(game.getScreenX()/2 - (game.getScreenY()/9)/2, game.getScreenY() - (game.getScreenY()/9)*3,game.getScreenY()/9 ,game.getScreenY()/9);
+    Player(GameView game, Animation anims[]){
+        super(game.getScreenX()/2 - (game.getScreenY()/9)/2, game.getScreenY() - (game.getScreenY()/9)*3,64,64);
         this.game = game;
 
         //create animations
+
+        normal = anims[0];
+        left = anims[1];
+        right = anims[2];
+        up = anims[3];
+        down = anims[4];
     }
 
 
