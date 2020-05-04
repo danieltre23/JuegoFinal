@@ -1,0 +1,21 @@
+# Map file for tile-based game
+# (Lines that start with '#' are comments)
+# The tiles are:
+#   (Space) Empty tile
+#   A   Cuadro rojo
+#   B   Cuadro Naranja
+#   C   Cuadro Azul
+#   G       Goal -> Estrella
+#   1       Enemigo
+#
+         G
+AA               AA
+A                 A
+A
+A     1
+AC            BBBB
+AC
+AA       C   C    B
+BB
+BBC            CCCCC
+BC
