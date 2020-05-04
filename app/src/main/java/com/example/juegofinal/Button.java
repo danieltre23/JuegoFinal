@@ -3,6 +3,7 @@ package com.example.juegofinal;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -14,6 +15,7 @@ public class Button {
     private int y;
     private int width;
     private int height;
+
     private Paint paint;
 
     Bitmap button;
@@ -32,10 +34,7 @@ public class Button {
         button = BitmapFactory.decodeResource(res, id);
         button = Bitmap.createScaledBitmap(button, w, h, false);
 
-        paint = new Paint();
-
-        paint.setTextSize(128);
-        paint.setColor(Color.WHITE);
+        paint  = new Paint();
 
     }
 
@@ -44,7 +43,7 @@ public class Button {
     }
 
     public void draw(Canvas canvas){
-        canvas.drawBitmap(button,getX(),getY(),paint);
+        canvas.drawBitmap(button,getX(),getY(), paint);
     }
 
     public int getX() {
