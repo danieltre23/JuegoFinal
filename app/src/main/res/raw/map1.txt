@@ -2,20 +2,17 @@
 # (Lines that start with '#' are comments)
 # The tiles are:
 #   (Space) Empty tile
-#   A   Cuadro rojo
-#   B   Cuadro Naranja
+#   A   Cuadro NARANJA
+#   B   Cuadro ROJO
 #   C   Cuadro Azul
 #   G       Goal -> Estrella
 #   1       Enemigo
 #
-         G
-AA               AA
-A                 A
+A  1    1
 A
-A     1
-AC            BBBB
-AC
-AA       C   C    B
-BB
-BBC            CCCCC
-BC
+A   1
+AC ACCB 1
+AC G
+AA  C   C
+BB  BBC A
+

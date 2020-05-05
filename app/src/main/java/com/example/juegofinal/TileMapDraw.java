@@ -27,13 +27,14 @@ import java.util.LinkedList;
  */
 public class TileMapDraw {
 
-    private static final int TILE_SIZE = 64;
+    private static final int TILE_SIZE = 128;
     // the size in bits of the tile
     // Math.pow(2, TILE_SIZE_BITS) == TILE_SIZE
-    private static final int TILE_SIZE_BITS = 6;
+    private static final int TILE_SIZE_BITS = 7;
 
     private Bitmap background;
-    private Paint paint = new Paint();
+    private Bitmap black;
+    private Paint paint;
 
     /**
      Converts a pixel position to a tile position.
@@ -69,6 +70,12 @@ public class TileMapDraw {
         //return numTiles * TILE_SIZE;
     }
 
+    TileMapDraw(Bitmap bg, Bitmap b){
+        background = bg;
+        paint = new Paint();
+        black = b;
+    }
+
 
     /**
      Sets the background to draw.
@@ -87,8 +94,8 @@ public class TileMapDraw {
     {
         Player player = map.getPlayer();
 
-        int mapWidth = tilesToPixels(map.getWidth());
-        int mapHeight = tilesToPixels(map.getWidth());
+        int mapWidthP = tilesToPixels(map.getWidth());
+        int mapHeightP = tilesToPixels(map.getHeight());
 
         // get the scrolling position of the map
 
@@ -102,52 +109,61 @@ public class TileMapDraw {
 
 
          //x offset for enemies and tiles
-        int offsetX = screenWidth -  tilesToPixels(map.getWidth());
+        int offsetX = screenWidth/2 - Math.round(player.getX()) - 128;
+        offsetX = Math.min(offsetX, 0);
+        offsetX = Math.max(offsetX, screenWidth - mapWidthP);
 
-        // get the y offset based on the position
+        // get the y offset based on the player position
 
-        int offsetY = screenHeight/2 - Math.round(player.getY()) - TILE_SIZE;
-        offsetY = Math.max(offsetY, 0);
-        offsetY = Math.max(offsetY, screenHeight - mapHeight);
+        int offsetY = screenHeight/2 - (mapHeightP-Math.round(player.getY()));
+
+        offsetY = Math.min(offsetY, 0);
+        offsetY = Math.max(offsetY, screenHeight - mapHeightP);
 
 
-        /*
+
          // draw black background, if needed
 
-        if (background == null ||
-                screenHeight > background.getHeight(null))
+        if (screenWidth > background.getWidth())
         {
-            g.
-            g.setColor(Color.black);
-            g.fillRect(0, 0, screenWidth, screenHeight);
+          g.drawBitmap(black,0,0,null);
         }
 
-        */
+
 
 
         // draw parallax background image
         if (background != null) {
-            int x = offsetX *
-                    (screenWidth - background.getWidth()) /
-                    (screenWidth - mapWidth);
-            x = screenWidth - background.getWidth();
-            x/=2;
 
-            int y;
-            y = screenHeight-background.getHeight() - offsetY * (screenHeight - background.getHeight())/(screenHeight - mapHeight);
+           int  x = offsetX *(screenWidth - background.getWidth())/(screenWidth - mapWidthP);
+
+
+            int y  = screenHeight-background.getHeight() - offsetY * (screenHeight - background.getHeight())/(screenHeight - mapHeightP); //fallando
+
             g.drawBitmap(background, x, y, paint);
         }
 
         // draw the visible tiles
 
 
-        int firstTileY = pixelsToTiles(offsetY);
-        int lastTileY = pixelsToTiles(screenHeight) + firstTileY+1;
+
+
+        int lastTileY = (map.getHeight()-1) - pixelsToTiles(-offsetY);
+        int firstTileY = lastTileY - pixelsToTiles(screenHeight);
+
+        firstTileY = Math.max(firstTileY,0);
+        lastTileY = Math.min((map.getHeight()-1),lastTileY);
+
+        int firstTileX = pixelsToTiles(-offsetX);
+        int lastTileX =  firstTileX + pixelsToTiles(screenWidth);
+
+        firstTileX = Math.max(firstTileX,0);
+        lastTileX = Math.min((map.getWidth()-1),lastTileX);
 
 
 
         for (int y=firstTileY; y<=lastTileY; y++) {
-            for (int x=0; x < map.getWidth(); x++) {
+            for (int x=firstTileX; x < lastTileX+2; x++) {
                 Tile image = map.getTile(x, y);
                 if (image != null) {
                     g.drawBitmap(image.getAnim().getCurrentFrame(),

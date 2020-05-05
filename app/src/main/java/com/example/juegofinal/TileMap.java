@@ -15,6 +15,7 @@ public class TileMap {
     private Player player;
     private LinkedList<Enemy> enemies;
 
+
     /**
       CREATES A MAP WITH WIDTH AND HEIGHT AS NUMBER OF TILES
      */
@@ -22,6 +23,7 @@ public class TileMap {
     TileMap(int width, int height){
         tiles = new Tile[width][height];
         enemies = new LinkedList();
+        player =  null;
     }
     /**
      Gets the width of this TileMap (number of tiles across).

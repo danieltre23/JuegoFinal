@@ -11,17 +11,19 @@ public abstract class Sprite {
     protected int y;
     protected int width;
     protected int height;
+    protected GameView game;
 
     /**
      * Set the initial values to create the item
      * @param x <b>x</b> position of the object
      * @param y <b>y</b> position of the object
      */
-    public Sprite(int x, int y, int width, int height){
+    public Sprite(int x, int y, int width, int height, GameView game){
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.game = game;
     }
 
     /**

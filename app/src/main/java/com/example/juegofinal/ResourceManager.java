@@ -3,6 +3,7 @@ package com.example.juegofinal;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -19,13 +20,14 @@ public class ResourceManager {
     private Animation animC;
     private Animation animG;
 
-    private Animation animE1[];
-    private Animation animP1[];
+    private Animation []animE1;
+    private Animation []animP1;
 
-    private static final int TILE_SIZE = 64;
+
+    private static final int TILE_SIZE = 128;
     // the size in bits of the tile
     // Math.pow(2, TILE_SIZE_BITS) == TILE_SIZE
-    private static final int TILE_SIZE_BITS = 6;
+    private static final int TILE_SIZE_BITS = 7;
 
     /**
      Converts a pixel position to a tile position.
@@ -61,61 +63,69 @@ public class ResourceManager {
         //return numTiles * TILE_SIZE;
     }
 
-
-    public ResourceManager(GameView g){
-        game = g;
-        //create animations
+    void initAnimations(){
         Bitmap x;
 
         //imagenes a b y c
 
-
-        x = BitmapFactory.decodeResource(g.getResources(),R.drawable.a);
+        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.a);
         x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
         Bitmap[] framesA = {x};
 
         animA = new Animation(framesA,100);
 
-        x = BitmapFactory.decodeResource(g.getResources(),R.drawable.b);
+        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.b);
         x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
         Bitmap[] framesB = {x};
 
         animB = new Animation(framesB,100);
 
-        x = BitmapFactory.decodeResource(g.getResources(),R.drawable.c);
+        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.c);
         x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
         Bitmap[] framesC = {x};
 
         animC = new Animation(framesC,100);
 
-        x = BitmapFactory.decodeResource(g.getResources(),R.drawable.g);
+        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.g);
         x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
         Bitmap[] framesG = {x};
 
         animG = new Animation(framesG,100);
 
-        x = BitmapFactory.decodeResource(g.getResources(),R.drawable.enemy1);
+
+        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.enemy1);
         x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
 
         Bitmap[] framesE1 = {x};
 
-        x = BitmapFactory.decodeResource(g.getResources(),R.drawable.player1);
+        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.player1);
         x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
 
         Bitmap[] framesP1 = {x};
 
-        for(int i=0; i<5; i++){
-            animE1[i] = new Animation(framesE1,100);
-        }
-
-        for(int i=0; i<5; i++){
-            animP1[i] = new Animation(framesP1,100);
-        }
+        animP1 = new Animation[] {new Animation (framesP1, 100),new Animation (framesP1, 100),new Animation (framesP1, 100),new Animation (framesP1, 100)};
+        animE1 = new Animation[] {new Animation (framesE1, 100),new Animation (framesE1, 100),new Animation (framesE1, 100),new Animation (framesE1, 100)};
 
 
     }
 
+
+    public ResourceManager(GameView g){
+
+        // debug
+        Log.i("manager", "constructor empezado");
+
+        game = g;
+        //create animations
+        initAnimations();
+
+        //debug
+        Log.i("manager", "constructor pasado");
+
+    }
+
     public TileMap loadMap(int id, Resources res) throws IOException {
+        Log.i("mapa", " empezado");
         ArrayList lines = new ArrayList();
         int width = 0;
         int height = 0;
@@ -145,6 +155,7 @@ public class ResourceManager {
         height = lines.size();
 
         TileMap newMap = new TileMap(width, height);
+        int contB = 0;
 
         for (int y=0; y<height; y++) {
             String line = (String)lines.get(y);
@@ -156,7 +167,8 @@ public class ResourceManager {
                 // check if the char represents a sprite
                  if (ch == 'A') {
                     newMap.setTile(x,y, new Tile(game, tilesToPixels(x), tilesToPixels(y),animA));
-                }
+                     contB++;
+                 }
                 else if (ch == 'B') {
                      newMap.setTile(x,y, new Tile(game, tilesToPixels(x), tilesToPixels(y),animB));
                 }
@@ -172,9 +184,10 @@ public class ResourceManager {
             }
         }
 
-        // add the player to the map (generic position)
-        newMap.setPlayer(new Player(game, animP1));
-
+        // add the player to the map (position with map)
+        newMap.setPlayer(new Player(game, tilesToPixels(width)/2 -64, tilesToPixels(height)-135,  animP1));
+        // debug
+        Log.i("mapa", "contador A's" + contB);
         return newMap;
     }
 

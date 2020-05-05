@@ -22,9 +22,10 @@ public class Button {
 
     Button (Resources res, int id, int x1, int y1) {
 
-        new Button( res,  id, x1,  y1, 100, 100);
+        this( res,  id, x1,  y1, 100, 100);
 
     }
+
     Button (Resources res, int id,int x1, int y1, int w, int h) {
         x = x1;
         y = y1;
@@ -35,6 +36,8 @@ public class Button {
         button = Bitmap.createScaledBitmap(button, w, h, false);
 
         paint  = new Paint();
+        paint.setTextSize(128);
+        paint.setColor(Color.WHITE);
 
     }
 

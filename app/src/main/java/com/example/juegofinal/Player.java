@@ -4,49 +4,64 @@ import android.graphics.Canvas;
 
 public class Player extends Sprite {
 
-    private Animation normal;
-    private Animation left;
-    private Animation right;
-    private Animation up;
-    private Animation down;
 
     private Animation curr;
-    private GameView game;
+    private Animation []anims;
+    private int dx,dy;
+
+    public int getDx() {
+        return dx;
+    }
+
+    public void setDx(int dx) {
+        this.dx = dx;
+    }
+
+    public int getDy() {
+        return dy;
+    }
+
+    public void setDy(int dy) {
+        this.dy = dy;
+    }
+
+
+
+
+
+    Player(GameView game, int x1, int y1, Animation []a){
+        super(x1,y1,128,128, game);
+        anims = a;
+        curr = anims[0];
+        dx=0;
+        dy=0;
+
+    }
+
+    Player(GameView game, Animation []a){
+        super(game.getScreenX()/2 - 64, game.getScreenY() - 200,128,128, game);
+        anims = a;
+        curr = anims[0];
+        dx=0;
+        dy=0;
+    }
 
     public Animation getAnim(){
         return curr;
-    }
-
-    Player(GameView game, int x1, int y1, Animation anims[]){
-        super(x1,y1,64,64);
-        this.game = game;
-
-        //create animations
-        normal = anims[0];
-        left = anims[1];
-        right = anims[2];
-        up = anims[3];
-        down = anims[4];
-
-    }
-
-    Player(GameView game, Animation anims[]){
-        super(game.getScreenX()/2 - (game.getScreenY()/9)/2, game.getScreenY() - (game.getScreenY()/9)*3,64,64);
-        this.game = game;
-
-        //create animations
-
-        normal = anims[0];
-        left = anims[1];
-        right = anims[2];
-        up = anims[3];
-        down = anims[4];
     }
 
 
     @Override
     public void update() {
         //update x and y and curr
+        x+=dx*3;
+        y+=dy*3;
+
+        x = Math.max(0,x);
+        x = Math.min(x, game.getRenderer().tilesToPixels(game.getMap().getWidth())-getWidth());
+
+        y = Math.max(y,0);
+        y = Math.min(y,game.getRenderer().tilesToPixels(game.getMap().getHeight())-getHeight());
 
 
         /*Animation newAnimation;
@@ -57,7 +72,6 @@ public class Player extends Sprite {
         }
         */
 
-        curr.update();
     }
 
     @Override

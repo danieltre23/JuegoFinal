@@ -4,17 +4,20 @@ import android.graphics.Canvas;
 
 public class Enemy extends Sprite {
 
-
-    private Animation normal;
-    private Animation left;
-    private Animation right;
-    private Animation up;
-    private Animation down;
-
     private Animation curr;
+    private Animation []anims;
 
-    private GameView game;
     private boolean attacking;
+
+
+    Enemy(GameView game, int x1, int y1, Animation []a){
+        super(x1,y1,64,64, game);
+        attacking = false;
+        anims = a;
+
+        curr = anims[0];
+    }
+
 
     public boolean isAttacking() {
         return attacking;
@@ -24,24 +27,8 @@ public class Enemy extends Sprite {
         attacking = a;
     }
 
-
-
     public Animation getAnim(){
         return curr;
-    }
-
-    Enemy(GameView game, int x1, int y1, Animation[] anims){
-        super(x1,y1,64,64);
-        this.game = game;
-        attacking = false;
-
-        //create animations
-        normal = anims[0];
-        left = anims[1];
-        right = anims[2];
-        up = anims[3];
-        down = anims[4];
-
     }
 
 
