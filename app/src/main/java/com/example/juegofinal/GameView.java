@@ -141,7 +141,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             // draw buttons
             pausebtn.draw(canvas);
-            for(int i=0; i<4;i++){
+            for(int i=0; i<joystick.length;i++){
                 joystick[i].draw(canvas);
             }
 
