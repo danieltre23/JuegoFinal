@@ -115,9 +115,7 @@ public class ResourceManager {
 
     }
 
-    private TileMap loadMap(int id, Resources res)
-            throws IOException
-    {
+    public TileMap loadMap(int id, Resources res) throws IOException {
         ArrayList lines = new ArrayList();
         int width = 0;
         int height = 0;
