@@ -107,7 +107,7 @@ public class TileMapDraw {
         // get the y offset based on the position
 
         int offsetY = screenHeight/2 - Math.round(player.getY()) - TILE_SIZE;
-        offsetY = Math.min(offsetY, 0);
+        offsetY = Math.max(offsetY, 0);
         offsetY = Math.max(offsetY, screenHeight - mapHeight);
 
 
@@ -139,12 +139,15 @@ public class TileMapDraw {
         }
 
         // draw the visible tiles
-        int firstTileX = pixelsToTiles(-offsetX);
-        int lastTileX = firstTileX +
-                pixelsToTiles(screenWidth) + 1;
 
-        for (int y=0; y<map.getHeight(); y++) {
-            for (int x=firstTileX; x <= lastTileX; x++) {
+
+        int firstTileY = pixelsToTiles(offsetY);
+        int lastTileY = pixelsToTiles(screenHeight) + firstTileY+1;
+
+
+
+        for (int y=firstTileY; y<=lastTileY; y++) {
+            for (int x=0; x < map.getWidth(); x++) {
                 Tile image = map.getTile(x, y);
                 if (image != null) {
                     g.drawBitmap(image.getAnim().getCurrentFrame(),
@@ -174,7 +177,7 @@ public class TileMapDraw {
 
             // wake up the creature when it's on screen (starts attacking)
 
-            if (!e.isAttacking()  && x >= 0 && x < screenWidth)
+            if (!e.isAttacking()  && y<screenHeight && y>0)
             {
                 e.setAttacking(true);
             }
