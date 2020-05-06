@@ -185,7 +185,7 @@ public class ResourceManager {
         }
 
         // add the player to the map (position with map)
-        newMap.setPlayer(new Player(game, tilesToPixels(width)/2 -64, tilesToPixels(height)-135,  animP1));
+        newMap.setPlayer(new Player(game, tilesToPixels(width)/2 -64, tilesToPixels(height)-128,  animP1));
         // debug
         Log.i("mapa", "contador A's" + contB);
         return newMap;

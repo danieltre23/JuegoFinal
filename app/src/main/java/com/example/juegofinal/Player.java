@@ -54,8 +54,8 @@ public class Player extends Sprite {
     @Override
     public void update() {
         //update x and y and curr
-        x+=dx*3;
-        y+=dy*3;
+        x+=dx*5;
+        y+=dy*5;
 
         x = Math.max(0,x);
         x = Math.min(x, game.getRenderer().tilesToPixels(game.getMap().getWidth())-getWidth());

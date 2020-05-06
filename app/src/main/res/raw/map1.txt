@@ -16,3 +16,8 @@ AC G
 AA  C   C
 BB  BBC A
 
+A    1
+C
+C
+AAAAAA  G
+

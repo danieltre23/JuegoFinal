@@ -115,10 +115,11 @@ public class TileMapDraw {
 
         // get the y offset based on the player position
 
-        int offsetY = screenHeight/2 - (mapHeightP-Math.round(player.getY()));
+        int offsetY = screenHeight/2 - Math.round(player.getY());
 
         offsetY = Math.min(offsetY, 0);
         offsetY = Math.max(offsetY, screenHeight - mapHeightP);
+
 
 
 
@@ -138,7 +139,7 @@ public class TileMapDraw {
            int  x = offsetX *(screenWidth - background.getWidth())/(screenWidth - mapWidthP);
 
 
-            int y  = screenHeight-background.getHeight() - offsetY * (screenHeight - background.getHeight())/(screenHeight - mapHeightP); //fallando
+            int y  = offsetY * (screenHeight - background.getHeight())/(screenHeight - mapHeightP); //cm
 
             g.drawBitmap(background, x, y, paint);
         }
@@ -148,22 +149,19 @@ public class TileMapDraw {
 
 
 
-        int lastTileY = (map.getHeight()-1) - pixelsToTiles(-offsetY);
-        int firstTileY = lastTileY - pixelsToTiles(screenHeight);
+        int firstTileY = pixelsToTiles(-offsetY);
+        int lastTileY = firstTileY + pixelsToTiles(screenHeight)+1;
 
-        firstTileY = Math.max(firstTileY,0);
-        lastTileY = Math.min((map.getHeight()-1),lastTileY);
 
         int firstTileX = pixelsToTiles(-offsetX);
-        int lastTileX =  firstTileX + pixelsToTiles(screenWidth);
+        int lastTileX =  firstTileX + pixelsToTiles(screenWidth)+1;
 
-        firstTileX = Math.max(firstTileX,0);
-        lastTileX = Math.min((map.getWidth()-1),lastTileX);
+
 
 
 
         for (int y=firstTileY; y<=lastTileY; y++) {
-            for (int x=firstTileX; x < lastTileX+2; x++) {
+            for (int x=firstTileX; x <= lastTileX; x++) {
                 Tile image = map.getTile(x, y);
                 if (image != null) {
                     g.drawBitmap(image.getAnim().getCurrentFrame(),
