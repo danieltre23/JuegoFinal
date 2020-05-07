@@ -1,15 +1,10 @@
 package com.example.juegofinal;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.util.SparseIntArray;
-
 import java.util.Iterator;
-import java.util.LinkedList;
+import static com.example.juegofinal.GameView.tile_bit;
 
 /**
  The TileMapRenderer class draws a TileMap on the screen.
@@ -27,10 +22,7 @@ import java.util.LinkedList;
  */
 public class TileMapDraw {
 
-    private static final int TILE_SIZE = 128;
-    // the size in bits of the tile
-    // Math.pow(2, TILE_SIZE_BITS) == TILE_SIZE
-    private static final int TILE_SIZE_BITS = 7;
+
 
     private Bitmap background;
     private Bitmap black;
@@ -39,7 +31,7 @@ public class TileMapDraw {
     /**
      Converts a pixel position to a tile position.
      */
-    public static int pixelsToTiles(float pixels) {
+    public  int pixelsToTiles(float pixels) {
         return pixelsToTiles(Math.round(pixels));
     }
 
@@ -47,9 +39,9 @@ public class TileMapDraw {
     /**
      Converts a pixel position to a tile position.
      */
-    public static int pixelsToTiles(int pixels) {
+    public  int pixelsToTiles(int pixels) {
         // use shifting to get correct values for negative pixels
-        return pixels >> TILE_SIZE_BITS;
+        return pixels >> tile_bit;
 
         // or, for tile sizes that aren't a power of two,
         // use the floor function:
@@ -60,11 +52,11 @@ public class TileMapDraw {
     /**
      Converts a tile position to a pixel position.
      */
-    public static int tilesToPixels(int numTiles) {
+    public  int tilesToPixels(int numTiles) {
         // no real reason to use shifting here.
         // it's slightly faster, but doesn't add up to much
         // on modern processors.
-        return numTiles << TILE_SIZE_BITS;
+        return numTiles << tile_bit;
 
         // use this if the tile size isn't a power of 2:
         //return numTiles * TILE_SIZE;

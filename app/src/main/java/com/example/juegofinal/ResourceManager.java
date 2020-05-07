@@ -4,9 +4,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-
+import static com.example.juegofinal.GameView.tile_size;
+import static com.example.juegofinal.GameView.tile_bit;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -24,15 +24,10 @@ public class ResourceManager {
     private Animation []animP1;
 
 
-    private static final int TILE_SIZE = 128;
-    // the size in bits of the tile
-    // Math.pow(2, TILE_SIZE_BITS) == TILE_SIZE
-    private static final int TILE_SIZE_BITS = 7;
-
     /**
      Converts a pixel position to a tile position.
      */
-    public static int pixelsToTiles(float pixels) {
+    public  int pixelsToTiles(float pixels) {
         return pixelsToTiles(Math.round(pixels));
     }
 
@@ -40,9 +35,9 @@ public class ResourceManager {
     /**
      Converts a pixel position to a tile position.
      */
-    public static int pixelsToTiles(int pixels) {
+    public  int pixelsToTiles(int pixels) {
         // use shifting to get correct values for negative pixels
-        return pixels >> TILE_SIZE_BITS;
+        return pixels >> tile_bit;
 
         // or, for tile sizes that aren't a power of two,
         // use the floor function:
@@ -53,11 +48,11 @@ public class ResourceManager {
     /**
      Converts a tile position to a pixel position.
      */
-    public static int tilesToPixels(int numTiles) {
+    public  int tilesToPixels(int numTiles) {
         // no real reason to use shifting here.
         // it's slightly faster, but doesn't add up to much
         // on modern processors.
-        return numTiles << TILE_SIZE_BITS;
+        return numTiles << tile_bit;
 
         // use this if the tile size isn't a power of 2:
         //return numTiles * TILE_SIZE;
@@ -69,37 +64,37 @@ public class ResourceManager {
         //imagenes a b y c
 
         x = BitmapFactory.decodeResource(game.getResources(),R.drawable.a);
-        x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
+        x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
         Bitmap[] framesA = {x};
 
         animA = new Animation(framesA,100);
 
         x = BitmapFactory.decodeResource(game.getResources(),R.drawable.b);
-        x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
+        x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
         Bitmap[] framesB = {x};
 
         animB = new Animation(framesB,100);
 
         x = BitmapFactory.decodeResource(game.getResources(),R.drawable.c);
-        x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
+        x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
         Bitmap[] framesC = {x};
 
         animC = new Animation(framesC,100);
 
         x = BitmapFactory.decodeResource(game.getResources(),R.drawable.g);
-        x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
+        x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
         Bitmap[] framesG = {x};
 
         animG = new Animation(framesG,100);
 
 
         x = BitmapFactory.decodeResource(game.getResources(),R.drawable.enemy1);
-        x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
+        x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
 
         Bitmap[] framesE1 = {x};
 
         x = BitmapFactory.decodeResource(game.getResources(),R.drawable.player1);
-        x = Bitmap.createScaledBitmap(x, TILE_SIZE, TILE_SIZE,false);
+        x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
 
         Bitmap[] framesP1 = {x};
 
@@ -118,6 +113,7 @@ public class ResourceManager {
         game = g;
         //create animations
         initAnimations();
+
 
         //debug
         Log.i("manager", "constructor pasado");

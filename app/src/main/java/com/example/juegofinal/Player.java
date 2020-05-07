@@ -1,6 +1,7 @@
 package com.example.juegofinal;
 
 import android.graphics.Canvas;
+import static com.example.juegofinal.GameView.tile_size;
 
 public class Player extends Sprite {
 
@@ -30,7 +31,7 @@ public class Player extends Sprite {
 
 
     Player(GameView game, int x1, int y1, Animation []a){
-        super(x1,y1,128,128, game);
+        super(x1,y1,tile_size,tile_size, game);
         anims = a;
         curr = anims[0];
         dx=0;
@@ -38,13 +39,6 @@ public class Player extends Sprite {
 
     }
 
-    Player(GameView game, Animation []a){
-        super(game.getScreenX()/2 - 64, game.getScreenY() - 200,128,128, game);
-        anims = a;
-        curr = anims[0];
-        dx=0;
-        dy=0;
-    }
 
     public Animation getAnim(){
         return curr;

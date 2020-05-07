@@ -1,6 +1,7 @@
 package com.example.juegofinal;
 
 import android.graphics.Canvas;
+import static com.example.juegofinal.GameView.tile_size;
 
 public class Tile extends Sprite {
 
@@ -9,7 +10,7 @@ public class Tile extends Sprite {
 
 
     Tile(GameView game, int x1, int y1, Animation a){
-        super(x1,y1,64 ,64, game);
+        super(x1,y1,tile_size ,tile_size, game);
         destroyed = false;
         normal = a;
 
