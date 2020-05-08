@@ -22,6 +22,8 @@ public class ResourceManager {
 
     private Animation []animE1;
     private Animation []animP1;
+    Animation u,d,r,l,n;
+
 
 
     /**
@@ -37,11 +39,8 @@ public class ResourceManager {
      */
     public  int pixelsToTiles(int pixels) {
         // use shifting to get correct values for negative pixels
-        return pixels >> tile_bit;
 
-        // or, for tile sizes that aren't a power of two,
-        // use the floor function:
-        //return (int)Math.floor((float)pixels / TILE_SIZE);
+        return (int)Math.floor((float)pixels / tile_size);
     }
 
 
@@ -52,14 +51,14 @@ public class ResourceManager {
         // no real reason to use shifting here.
         // it's slightly faster, but doesn't add up to much
         // on modern processors.
-        return numTiles << tile_bit;
+
 
         // use this if the tile size isn't a power of 2:
-        //return numTiles * TILE_SIZE;
+        return numTiles * tile_size;
     }
 
     void initAnimations(){
-        Bitmap x;
+        Bitmap x,y,w,z;
 
         //imagenes a b y c
 
@@ -81,11 +80,24 @@ public class ResourceManager {
 
         animC = new Animation(framesC,100);
 
-        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.g);
-        x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
-        Bitmap[] framesG = {x};
+        String file;
 
-        animG = new Animation(framesG,100);
+        Bitmap []framesG = {null,null,null,null};
+
+
+
+
+        for(int i= 1; i<=4; i++){
+            file = "star" + String.valueOf(i);
+            x = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier(file, "drawable", game.pac));
+            x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
+            framesG[i-1] =x;
+        }
+
+
+
+
+        animG = new Animation(framesG,210);
 
 
         x = BitmapFactory.decodeResource(game.getResources(),R.drawable.enemy1);
@@ -93,13 +105,77 @@ public class ResourceManager {
 
         Bitmap[] framesE1 = {x};
 
-        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.player1);
+        animE1 = new Animation[] {new Animation (framesE1, 100),new Animation (framesE1, 100),new Animation (framesE1, 100),new Animation (framesE1, 100)};
+
+
+        animP1 = new Animation[5] ;
+        Bitmap[] framesP1 = new Bitmap[9];
+
+        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.tile31);
         x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
 
-        Bitmap[] framesP1 = {x};
+        y = BitmapFactory.decodeResource(game.getResources(),R.drawable.tile32);
+        y = Bitmap.createScaledBitmap(y, tile_size, tile_size,false);
 
-        animP1 = new Animation[] {new Animation (framesP1, 100),new Animation (framesP1, 100),new Animation (framesP1, 100),new Animation (framesP1, 100)};
-        animE1 = new Animation[] {new Animation (framesE1, 100),new Animation (framesE1, 100),new Animation (framesE1, 100),new Animation (framesE1, 100)};
+        Bitmap[] no = {x,y};
+
+        animP1[0] = new Animation (no,150);
+
+        for(int i = 1; i<=4; i++) {
+            for (int j = 1; j <= 9; j++) {
+                file = "tile" + String.valueOf(i) + String.valueOf(j);
+                x = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier(file, "drawable", game.pac));
+                x = Bitmap.createScaledBitmap(x, tile_size, tile_size, false);
+                framesP1[j - 1] = x;
+            }
+            animP1[i] = new Animation(framesP1,150);
+            framesP1 = new Bitmap[9];
+        }
+
+
+/*
+            for(int j=1; j<=9; j++){
+                file = "tile" + String.valueOf(1) + String.valueOf(j);
+                x = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier(file, "drawable", game.pac));
+                x = Bitmap.createScaledBitmap(x, tile_size,tile_size,false);
+                framesP1[j-1]=x;
+            }
+            u = new Animation (framesP1,150);
+            framesP1 = new Bitmap[9];
+
+
+
+        for(int j=1; j<=9; j++){
+            file = "tile" + String.valueOf(2) + String.valueOf(j);
+            x = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier(file, "drawable", game.pac));
+            x = Bitmap.createScaledBitmap(x, tile_size,tile_size,false);
+            framesP1[j-1]=x;
+        }
+
+        l = new Animation (framesP1,150);
+        framesP1 = new Bitmap[9];
+
+
+        for(int j=1; j<=9; j++){
+            file = "tile" + String.valueOf(3) + String.valueOf(j);
+            x = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier(file, "drawable", game.pac));
+            x = Bitmap.createScaledBitmap(x, tile_size,tile_size,false);
+            framesP1[j-1]=x;
+        }
+        d = new Animation (framesP1,150);
+        framesP1 = new Bitmap[9];
+
+
+        for(int j=1; j<=9; j++){
+            file = "tile" + String.valueOf(4) + String.valueOf(j);
+            x = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier(file, "drawable", game.pac));
+            x = Bitmap.createScaledBitmap(x, tile_size,tile_size,false);
+            framesP1[j-1]=x;
+        }
+        r = new Animation (framesP1,150);
+        framesP1 = new Bitmap[9];
+*/
+
 
 
     }
@@ -181,7 +257,7 @@ public class ResourceManager {
         }
 
         // add the player to the map (position with map)
-        newMap.setPlayer(new Player(game, tilesToPixels(width)/2 -64, tilesToPixels(height)-128,  animP1));
+        newMap.setPlayer(new Player(game, tilesToPixels(width)/2 -64, tilesToPixels(height)-128, animP1));
         // debug
         Log.i("mapa", "contador A's" + contB);
         return newMap;

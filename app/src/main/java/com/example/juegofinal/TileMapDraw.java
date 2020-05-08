@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import java.util.Iterator;
 import static com.example.juegofinal.GameView.tile_bit;
+import static com.example.juegofinal.GameView.tile_size;
 
 /**
  The TileMapRenderer class draws a TileMap on the screen.
@@ -41,11 +42,11 @@ public class TileMapDraw {
      */
     public  int pixelsToTiles(int pixels) {
         // use shifting to get correct values for negative pixels
-        return pixels >> tile_bit;
+       // return pixels >> tile_bit;
 
         // or, for tile sizes that aren't a power of two,
         // use the floor function:
-        //return (int)Math.floor((float)pixels / TILE_SIZE);
+        return (int)Math.floor((float)pixels / tile_size);
     }
 
 
@@ -56,10 +57,10 @@ public class TileMapDraw {
         // no real reason to use shifting here.
         // it's slightly faster, but doesn't add up to much
         // on modern processors.
-        return numTiles << tile_bit;
+        //return numTiles << tile_bit;
 
         // use this if the tile size isn't a power of 2:
-        //return numTiles * TILE_SIZE;
+         return numTiles * tile_size;
     }
 
     TileMapDraw(Bitmap bg, Bitmap b){
@@ -154,12 +155,14 @@ public class TileMapDraw {
 
         for (int y=firstTileY; y<=lastTileY; y++) {
             for (int x=firstTileX; x <= lastTileX; x++) {
-                Tile image = map.getTile(x, y);
-                if (image != null) {
-                    g.drawBitmap(image.getAnim().getCurrentFrame(),
+                Tile tile = map.getTile(x, y);
+                if (tile != null) {
+                    tile.update();  //caco
+                    g.drawBitmap(tile.getAnim().getCurrentFrame(),
                             tilesToPixels(x) + offsetX,
                             tilesToPixels(y) + offsetY,
                             paint);
+
                 }
             }
         }

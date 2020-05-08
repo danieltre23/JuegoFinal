@@ -3,7 +3,7 @@ package com.example.juegofinal;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
+import static com.example.juegofinal.GameView.tile_size;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -22,7 +22,7 @@ public class Button {
 
     Button (Resources res, int id, int x1, int y1) {
 
-        this( res,  id, x1,  y1, 100, 100);
+        this( res,  id, x1,  y1, (tile_size*3)/4, (tile_size*3)/4);
 
     }
 

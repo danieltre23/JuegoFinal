@@ -28,14 +28,20 @@ public class GameView extends SurfaceView implements Runnable {
     private Button []joystick;
     public static int tile_size = 256;
     public static int tile_bit = 8;
+    public String pac;
 
     public GameView(GameActivity activity, int screenX, int screenY)  {
         super(activity);
 
+
         this.activity = activity;
+        pac = activity.getPackageName();
 
         this.screenX = screenX;
         this.screenY = screenY;
+
+        tile_size = screenX/5;
+       // tile_bit = Math.log(tile_size)/Math.log(2);
 
         paint = new Paint();
         paint.setTextSize(128);
@@ -115,6 +121,19 @@ public class GameView extends SurfaceView implements Runnable {
         //update all assets from map
 
         map.getPlayer().update();
+        //int y = -1, w = map.getWidth(), x, h = map.getHeight();
+
+       /* while(y++<h){
+            x=-1;
+            while(x++<w){
+                Tile t = map.getTile(x,y);
+                if(t!=null){
+                    t.update();
+                }
+            }
+        }*/
+
+
 
 
 
@@ -133,6 +152,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             // draw buttons
             pausebtn.draw(canvas);
+
             for(int i=0; i<joystick.length;i++){
                 joystick[i].draw(canvas);
             }
@@ -179,24 +199,19 @@ public class GameView extends SurfaceView implements Runnable {
                 }
 
                 if(joystick[0].click(event)){
-                    map.getPlayer().setDx(0);
-                    map.getPlayer().setDy(-1);
+                    map.getPlayer().setDir(1);
                 }
                 else if(joystick[1].click(event)){
-                    map.getPlayer().setDx(0);
-                    map.getPlayer().setDy(1);
+                    map.getPlayer().setDir(3);
                 }
                 else if(joystick[2].click(event)){
-                    map.getPlayer().setDx(1);
-                    map.getPlayer().setDy(0);
+                    map.getPlayer().setDir(4);
                 }
                 else if(joystick[3].click(event)){
-                    map.getPlayer().setDx(-1);
-                    map.getPlayer().setDy(0);
+                    map.getPlayer().setDir(2);
                 }
                 else if (joystick[4].click(event)){
-                    map.getPlayer().setDx(0);
-                    map.getPlayer().setDy(0);
+                    map.getPlayer().setDir(0);
                 }
                 /*if (perdisteBtn.click(event)) {
                     goToLose();

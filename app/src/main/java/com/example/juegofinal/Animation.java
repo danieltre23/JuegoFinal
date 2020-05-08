@@ -18,6 +18,7 @@ public class Animation {
     private long lastTime;
     private long timer;
     private Bitmap[] frames;
+    public String id;
 
     /**
      * initializes the values for the animation
@@ -30,8 +31,10 @@ public class Animation {
         index = 0;
         timer = 0;
         lastTime = System.currentTimeMillis();
+        id = "ekis";
 
     }
+
 
     /**
      * get the speed of the animation
