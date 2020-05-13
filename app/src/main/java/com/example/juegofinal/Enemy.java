@@ -1,12 +1,35 @@
 package com.example.juegofinal;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+
 import static com.example.juegofinal.GameView.tile_size;
 
 public class Enemy extends Sprite {
 
     private Animation curr;
     private Animation []anims;
+    private Paint paint;
+    private double health;
+    private double fullHealth;
+
+    public double getHealth() {
+        return health;
+    }
+
+    public void setHealth(double health) {
+        this.health = health;
+    }
+
+    public double getFullHealth() {
+        return fullHealth;
+    }
+
+    public void setFullHealth(double fullHealth) {
+        this.fullHealth = fullHealth;
+    }
 
     private boolean attacking;
 
@@ -17,6 +40,9 @@ public class Enemy extends Sprite {
         anims = a;
 
         curr = anims[0];
+        paint = new Paint();
+        fullHealth = 500;
+        health = fullHealth*0.8;
     }
 
 
@@ -49,7 +75,26 @@ public class Enemy extends Sprite {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        canvas.drawBitmap(curr.getCurrentFrame(), getX(), getY(), game.getPaint());
+    public void draw(Canvas g, int offsetX, int offsetY){
+        int xP = Math.round(getX())+offsetX;
+        int yP = Math.round(getY())+offsetY;
+
+        g.drawBitmap(curr.getCurrentFrame(), xP, yP, game.getPaint());
+
+        yP-=20;
+        //health bar bg
+        paint.setColor(Color.LTGRAY);
+        g.drawRect(new Rect(xP,yP,xP+tile_size, yP+ tile_size/6),paint);
+
+        // health bar
+        paint.setColor(game.getResources().getColor(R.color.healthBar));
+        double percentage = ((getHealth()*1.0)/getFullHealth()) * tile_size;
+        g.drawRect(new Rect(xP,yP,xP+(int)percentage, yP+ tile_size/6),paint);
+
+        //string health
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(30);
+        g.drawText(String.valueOf((int)health), xP+tile_size/3, yP-10, paint);
+
     }
 }

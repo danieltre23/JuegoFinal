@@ -82,7 +82,7 @@ public abstract class Sprite {
      * To paint the item
      * @param g <b>Graphics</b> object to paint the item
      */
-    public abstract void draw(Canvas canvas);
+    public abstract void draw(Canvas canvas, int offsetX, int offsetY);
 
     Rect getCollisionShape () {
         return new Rect(x, y, x + width, y + height);

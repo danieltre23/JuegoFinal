@@ -38,7 +38,7 @@ public class Tile extends Sprite {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        canvas.drawBitmap(normal.getCurrentFrame(), getX(), getY(), game.getPaint());
+    public void draw(Canvas canvas, int xT, int yT) {
+        canvas.drawBitmap(normal.getCurrentFrame(), xT, yT, game.getPaint());
     }
 }

@@ -6,4 +6,5 @@
     <color name="colorBackgroundDark">#092E2C</color>
     <color name="colorBackgroundLight">#2B6D45</color>
     <color name="colorTitles">#E1DEC1</color>
+    <color name="healthBar">#00ee00</color>
 </resources>

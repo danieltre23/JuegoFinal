@@ -2,7 +2,10 @@ package com.example.juegofinal;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+
 import java.util.Iterator;
 import static com.example.juegofinal.GameView.tile_bit;
 import static com.example.juegofinal.GameView.tile_size;
@@ -62,6 +65,8 @@ public class TileMapDraw {
         // use this if the tile size isn't a power of 2:
          return numTiles * tile_size;
     }
+
+
 
     TileMapDraw(Bitmap bg, Bitmap b){
         background = bg;
@@ -158,20 +163,13 @@ public class TileMapDraw {
                 Tile tile = map.getTile(x, y);
                 if (tile != null) {
                     tile.update();  //caco
-                    g.drawBitmap(tile.getAnim().getCurrentFrame(),
-                            tilesToPixels(x) + offsetX,
-                            tilesToPixels(y) + offsetY,
-                            paint);
-
+                    tile.draw(g,tilesToPixels(x)+offsetX, tilesToPixels(y)+offsetY);
                 }
             }
         }
 
         // draw player
-        g.drawBitmap(player.getAnim().getCurrentFrame(),
-                Math.round(player.getX()) + offsetX,
-                Math.round(player.getY()) + offsetY,
-                paint);
+        player.draw(g,offsetX,offsetY);
 
         // draw enemies
         Iterator i = map.getEnemies();
@@ -182,11 +180,11 @@ public class TileMapDraw {
             int x = Math.round(e.getX()) + offsetX;
             int y = Math.round(e.getY()) + offsetY;
 
-            g.drawBitmap(e.getAnim().getCurrentFrame(), x, y, paint);
+            e.draw(g,offsetX,offsetY);
 
             // wake up the creature when it's on screen (starts attacking)
 
-            if (!e.isAttacking()  && y<screenHeight && y>0)
+            if (!e.isAttacking()  && y<screenHeight && y>0 && x>0 && x<screenWidth)
             {
                 e.setAttacking(true);
             }

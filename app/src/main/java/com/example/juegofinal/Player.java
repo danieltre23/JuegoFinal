@@ -1,6 +1,9 @@
 package com.example.juegofinal;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 
 import static com.example.juegofinal.GameView.tile_size;
@@ -11,6 +14,25 @@ public class Player extends Sprite {
     private Animation curr;
     private Animation last;
     private Animation []anims;
+    private double health;
+    private double fullHealth;
+    private Paint paint;
+
+    public double getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public double getFullHealth() {
+        return fullHealth;
+    }
+
+    public void setFullHealth(int fullHealth) {
+        this.fullHealth = fullHealth;
+    }
 
     private int dx,dy;
 
@@ -38,6 +60,9 @@ public class Player extends Sprite {
         dir = 0;
         anims = a;
         curr = anims[dir];
+        fullHealth = 400;
+        health = fullHealth*0.9;
+        paint = new Paint();
     }
 
 
@@ -64,6 +89,7 @@ public class Player extends Sprite {
                 break;
         }
     }
+
 
 
     @Override
@@ -96,7 +122,27 @@ public class Player extends Sprite {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        canvas.drawBitmap(curr.getCurrentFrame(), getX(), getY(), game.getPaint());
+    public void draw(Canvas g, int offsetX, int offsetY){
+        int xP = Math.round(getX())+offsetX;
+        int yP = Math.round(getY())+offsetY;
+
+        g.drawBitmap(curr.getCurrentFrame(), xP, yP, game.getPaint());
+
+        yP-=20;
+        //health bar bg
+        paint.setColor(Color.LTGRAY);
+        g.drawRect(new Rect(xP,yP,xP+tile_size, yP+ tile_size/6),paint);
+
+        // health bar
+        paint.setColor(game.getResources().getColor(R.color.healthBar));
+        double percentage = ((getHealth()*1.0)/getFullHealth()) * tile_size;
+        g.drawRect(new Rect(xP,yP,xP+(int)percentage, yP+ tile_size/6),paint);
+
+        //string health
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(30);
+        g.drawText(String.valueOf((int)health), xP+tile_size/3, yP-10, paint);
+
     }
+
 }

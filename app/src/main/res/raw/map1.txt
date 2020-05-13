@@ -8,7 +8,7 @@
 #   G       Goal -> Estrella
 #   1       Enemigo
 #
-A  1    1
+A      G
 A
 A   1
 AC ACCB 1
