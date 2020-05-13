@@ -42,7 +42,7 @@ public class Enemy extends Sprite {
         curr = anims[0];
         paint = new Paint();
         fullHealth = 500;
-        health = fullHealth*0.8;
+        health = fullHealth*0.35;
     }
 
 
@@ -87,9 +87,11 @@ public class Enemy extends Sprite {
         g.drawRect(new Rect(xP,yP,xP+tile_size, yP+ tile_size/6),paint);
 
         // health bar
-        paint.setColor(game.getResources().getColor(R.color.healthBar));
-        double percentage = ((getHealth()*1.0)/getFullHealth()) * tile_size;
-        g.drawRect(new Rect(xP,yP,xP+(int)percentage, yP+ tile_size/6),paint);
+        double percentage = ((getHealth()*1.0)/getFullHealth())*100.0;
+        paint.setColor(Color.rgb( (int)((percentage > 50 ? 1 - 2 * (percentage - 50) / 100.0 : 1.0) * 255), (int)((percentage > 50 ? 1.0 : 2 * percentage / 100.0) * 255),0));
+
+        percentage/=100.0;
+        g.drawRect(new Rect(xP,yP,xP+(int)(percentage*tile_size), yP+ tile_size/6),paint);
 
         //string health
         paint.setColor(Color.BLACK);
