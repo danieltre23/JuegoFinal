@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Point;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
+
+import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -19,9 +23,25 @@ public class GameActivity extends AppCompatActivity {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
 
+        RelativeLayout screenLayout = new RelativeLayout(this);
         gameView = new GameView(this, point.x, point.y);
 
-        setContentView(gameView);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        RelativeLayout joystickLayout = (RelativeLayout) inflater.inflate(R.layout.joystick, null, false);
+
+        JoystickView joystick = (JoystickView) findViewById(R.id.joystickView);
+        //joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+        //    @Override
+        //    public void onMove(int angle, int strength) {
+                //System.out.println(angle + " " + strength);
+                // do whatever you want
+        //    }
+        //});
+
+        screenLayout.addView(gameView);
+        screenLayout.addView(joystickLayout);
+
+        setContentView(screenLayout);
     }
 
     @Override
