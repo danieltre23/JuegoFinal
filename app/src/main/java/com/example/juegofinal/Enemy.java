@@ -35,14 +35,14 @@ public class Enemy extends Sprite {
 
 
     Enemy(GameView game, int x1, int y1, Animation []a){
-        super(x1,y1,tile_size,tile_size, game);
+        super(x1,y1,tile_size,tile_size, (int)(tile_size*0.714),tile_size,game);
         attacking = false;
         anims = a;
 
         curr = anims[0];
         paint = new Paint();
         fullHealth = 500;
-        health = fullHealth*0.35;
+        health = fullHealth*0.72;
     }
 
 

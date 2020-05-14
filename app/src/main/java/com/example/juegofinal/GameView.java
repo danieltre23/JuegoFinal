@@ -120,7 +120,11 @@ public class GameView extends SurfaceView implements Runnable {
 
         //update all assets from map
 
+        //tile update in mapRenderer
+
         map.getPlayer().update();
+
+
         //int y = -1, w = map.getWidth(), x, h = map.getHeight();
 
        /* while(y++<h){

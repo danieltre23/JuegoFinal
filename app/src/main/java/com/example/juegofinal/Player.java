@@ -3,8 +3,10 @@ package com.example.juegofinal;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
+
+import java.util.Iterator;
 
 import static com.example.juegofinal.GameView.tile_size;
 
@@ -17,6 +19,10 @@ public class Player extends Sprite {
     private double health;
     private double fullHealth;
     private Paint paint;
+    private long timeHurting = 0;
+    private long timeToHurt = 500;
+    private boolean hurting;
+
 
     public double getHealth() {
         return health;
@@ -54,15 +60,16 @@ public class Player extends Sprite {
 
 
     Player(GameView game, int x1, int y1, Animation []a){
-        super(x1,y1,tile_size,tile_size, game);
+        super(x1,y1,tile_size,tile_size, (int)(tile_size*0.35), (int)(tile_size),game);
         dx=0;
         dy=0;
         dir = 0;
         anims = a;
         curr = anims[dir];
-        fullHealth = 400;
+        fullHealth = 500;
         health = fullHealth;
         paint = new Paint();
+        hurting = false;
     }
 
 
@@ -94,32 +101,79 @@ public class Player extends Sprite {
 
     @Override
     public void update() {
+        //update hurting flag
+        if(hurting && System.currentTimeMillis()-timeHurting>timeToHurt){
+            hurting  = false;
+        }
         //update x and y and curr
+
         updateDirection();
+        float newX, newY;
 
-        x+=dx*(tile_size/10);
-        y+=dy*(tile_size/10);
-
-        x = Math.max(0,x);
-        x = Math.min(x, game.getRenderer().tilesToPixels(game.getMap().getWidth())-getWidth());
-
-        y = Math.max(y,0);
-        y = Math.min(y,game.getRenderer().tilesToPixels(game.getMap().getHeight())-getHeight());
+        newX = x + dx * (tile_size / 10);
+        newY = y + dy * (tile_size / 10);
 
 
-        curr = anims[dir];
+        //collision with tiles and end of map
 
+        //x movement check
+        Point tile = getTileCollision(newX, y);
 
-        if(last!=curr){
-            curr.start();
+        if (tile == null) {
+            x = (int) newX;
+        } else {
+            // line up with the tile boundary
+            if (dx > 0) {
+                x = game.getRenderer().tilesToPixels(tile.x) - realW - ((getWidth() - realW) / 2);
+            } else if (dx < 0) {
+                x = game.getRenderer().tilesToPixels(tile.x + 1) - ((getWidth() - realW) / 2);
+            }
+
+            dx = 0;
         }
 
-        curr.update();
-        last = curr;
+        //y movement check
+        tile = getTileCollision(x, newY);
+
+        if (tile == null) {
+            y = (int) newY;
+        } else {
+            // line up with the tile boundary
+            if (dy > 0) {
+                y = game.getRenderer().tilesToPixels(tile.y) - realH - ((getHeight() - realH) / 2);
+            } else if (dy < 0) {
+                y = game.getRenderer().tilesToPixels(tile.y + 1) - ((getHeight() - realH) / 2);
+            }
+
+            dy = 0;
+        }
+
+        //enemies collision check
+        Iterator i = game.getMap().getEnemies();
+
+        while (i.hasNext()) {
+            Enemy e = (Enemy) i.next();
+            if (!hurting && Rect.intersects(e.getCollisionShape(), getCollisionShape())) {
+                // posible sonido o animacion
+                health-=20;
+                health = Math.max(health,0);
+                timeHurting = System.currentTimeMillis();
+                hurting = true;
+            }
+        }
+
+            curr = anims[dir];
+
+            if (last != curr) {
+                curr.start();
+            }
+
+            curr.update();
+            last = curr;
 
 
+        }
 
-    }
 
     @Override
     public void draw(Canvas g, int offsetX, int offsetY){

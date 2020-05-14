@@ -10,7 +10,7 @@ public class Tile extends Sprite {
 
 
     Tile(GameView game, int x1, int y1, Animation a){
-        super(x1,y1,tile_size ,tile_size, game);
+        super(x1,y1,tile_size ,tile_size, tile_size,tile_size, game);
         destroyed = false;
         normal = a;
 
