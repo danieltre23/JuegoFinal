@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 
 import java.util.Iterator;
 
@@ -42,6 +43,22 @@ public class Player extends Sprite {
 
     private int dx,dy;
 
+    public int getDx() {
+        return dx;
+    }
+
+    public void setDx(int dx) {
+        this.dx = dx;
+    }
+
+    public int getDy() {
+        return dy;
+    }
+
+    public void setDy(int dy) {
+        this.dy = dy;
+    }
+
     public int getDir() {
         return dir;
     }
@@ -77,30 +94,6 @@ public class Player extends Sprite {
         return curr;
     }
 
-    private void updateDirection(){
-        switch(dir){
-            case 0:
-                dx=0;dy=0;
-                break;
-            case 1:
-                dx=0;dy=-1;
-                break;
-            case 2:
-                dx=-1; dy=0;
-                break;
-            case 3:
-                dx=0; dy=1;
-                break;
-            case 4:
-                dx=1; dy=0;
-                break;
-        }
-    }
-
-    public void move(int xm, int ym) {
-        x += xm * (tile_size / 10) / 5;
-        y += ym * (tile_size / 10) / 5;
-    }
 
     @Override
     public void update() {
@@ -110,11 +103,10 @@ public class Player extends Sprite {
         }
         //update x and y and curr
 
-        updateDirection();
         float newX, newY;
 
-        newX = x + dx * (tile_size / 10);
-        newY = y + dy * (tile_size / 10);
+        newX = x + dx * (tile_size / 10)/5;
+        newY = y + dy * (tile_size / 10)/5;
 
 
         //collision with tiles and end of map

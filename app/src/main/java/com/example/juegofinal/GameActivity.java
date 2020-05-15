@@ -37,7 +37,8 @@ public class GameActivity extends AppCompatActivity {
                 int x = (int) (Math.cos(angle*3.14/180) * Math.floor(strength*5/100));
                 int y = (int) (Math.sin(angle*3.14/180) * Math.floor(strength*5/100)) * -1;
                 System.out.println("x = "+x+" , y =  " + y);
-                gameView.getMap().getPlayer().move(x, y);
+                gameView.getMap().getPlayer().setDx(x);
+                gameView.getMap().getPlayer().setDy(y);
             }
         });
 
