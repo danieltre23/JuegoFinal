@@ -97,7 +97,10 @@ public class Player extends Sprite {
         }
     }
 
-
+    public void move(int xm, int ym) {
+        x += xm * (tile_size / 10) / 5;
+        y += ym * (tile_size / 10) / 5;
+    }
 
     @Override
     public void update() {

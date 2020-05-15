@@ -29,14 +29,17 @@ public class GameActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         RelativeLayout joystickLayout = (RelativeLayout) inflater.inflate(R.layout.joystick, null, false);
 
-        JoystickView joystick = (JoystickView) findViewById(R.id.joystickView);
-        //joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
-        //    @Override
-        //    public void onMove(int angle, int strength) {
-                //System.out.println(angle + " " + strength);
+        JoystickView joystick = (JoystickView) joystickLayout.findViewById(R.id.joystickView);
+        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+            @Override
+            public void onMove(int angle, int strength) {
                 // do whatever you want
-        //    }
-        //});
+                int x = (int) (Math.cos(angle*3.14/180) * Math.floor(strength*5/100));
+                int y = (int) (Math.sin(angle*3.14/180) * Math.floor(strength*5/100)) * -1;
+                System.out.println("x = "+x+" , y =  " + y);
+                gameView.getMap().getPlayer().move(x, y);
+            }
+        });
 
         screenLayout.addView(gameView);
         screenLayout.addView(joystickLayout);

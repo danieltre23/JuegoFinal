@@ -25,7 +25,6 @@ public class GameView extends SurfaceView implements Runnable {
     private Bitmap bg;
     private TileMap map;
     private ResourceManager manager;
-    private Button []joystick;
     public static int tile_size = 256;
     public static int tile_bit = 8;
     public String pac;
@@ -62,7 +61,6 @@ public class GameView extends SurfaceView implements Runnable {
         perdisteBtn = new Button(getResources(), R.drawable.sick, 200, 200 );
         ganasteBtn = new  Button(getResources(), R.drawable.smily, 800, 200);
 
-        joystick = new Button[] {new Button(getResources(), R.drawable.cir, screenX-80*2,screenY -180*2),new Button(getResources(), R.drawable.cir, screenX-80*2,screenY-80*2),new Button(getResources(), R.drawable.cir, screenX -50*2,screenY-130*2),new Button(getResources(), R.drawable.cir, screenX - 110*2,screenY-130*2),new Button(getResources(), R.drawable.cir, 20,screenY-130*2)};
 
         //create manager
        manager = new ResourceManager(this);
@@ -157,9 +155,6 @@ public class GameView extends SurfaceView implements Runnable {
             // draw buttons
             pausebtn.draw(canvas);
 
-            for(int i=0; i<joystick.length;i++){
-                joystick[i].draw(canvas);
-            }
 
             getHolder().unlockCanvasAndPost(canvas);
         }
@@ -202,21 +197,6 @@ public class GameView extends SurfaceView implements Runnable {
                     goToPause();
                 }
 
-                if(joystick[0].click(event)){
-                    map.getPlayer().setDir(1);
-                }
-                else if(joystick[1].click(event)){
-                    map.getPlayer().setDir(3);
-                }
-                else if(joystick[2].click(event)){
-                    map.getPlayer().setDir(4);
-                }
-                else if(joystick[3].click(event)){
-                    map.getPlayer().setDir(2);
-                }
-                else if (joystick[4].click(event)){
-                    map.getPlayer().setDir(0);
-                }
                 /*if (perdisteBtn.click(event)) {
                     goToLose();
                 }
