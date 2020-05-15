@@ -23,6 +23,7 @@ public class Player extends Sprite {
     private long timeHurting = 0;
     private long timeToHurt = 500;
     private boolean hurting;
+    private double range = 22.5;
 
 
     public double getHealth() {
@@ -69,15 +70,9 @@ public class Player extends Sprite {
 
     private int dir;
 
-    /*
-       1
-     2 0 4
-       3
-     */
 
-
-    Player(GameView game, int x1, int y1, Animation []a){
-        super(x1,y1,tile_size,tile_size, (int)(tile_size*0.35), (int)(tile_size),game);
+    Player(GameView game, int x1, int y1, int w, int h, Animation []a){
+        super(x1,y1,w,h, w,h,game);
         dx=0;
         dy=0;
         dir = 0;
@@ -92,6 +87,46 @@ public class Player extends Sprite {
 
     public Animation getAnim(){
         return curr;
+    }
+
+    /*
+    1 2 3
+    4 0 5
+    6 7 8
+
+
+  */
+
+    public void updateDir(int angle){
+
+        if(dx==0 && dy==0){
+            dir=0;
+        }
+        else if((angle>0 && angle<range) || (angle>315+range && angle<=359)){
+            dir = 5;
+        }
+        else if(angle<270+range && angle>270-range){
+            dir =7;
+        }
+        else if(angle>180-range && angle<180+range){
+            dir=4;
+        }
+        else if(angle>90-range && angle<90+range){
+            dir =2;
+        }
+        else if(angle>135-range && angle<135+range){
+            dir =1;
+        }
+        else if(angle>45-range && angle<45+range){
+            dir=3;
+        }
+        else if(angle>225-range && angle<225+range){
+            dir = 6;
+        }
+        else if(angle>315-range && angle<315+range){
+            dir=8;
+        }
+
     }
 
 

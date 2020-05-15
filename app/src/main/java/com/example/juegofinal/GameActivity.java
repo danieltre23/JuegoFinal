@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -36,9 +37,9 @@ public class GameActivity extends AppCompatActivity {
                 // do whatever you want
                 int x = (int) (Math.cos(angle*3.14/180) * Math.floor(strength*5/100));
                 int y = (int) (Math.sin(angle*3.14/180) * Math.floor(strength*5/100)) * -1;
-                System.out.println("x = "+x+" , y =  " + y);
                 gameView.getMap().getPlayer().setDx(x);
                 gameView.getMap().getPlayer().setDy(y);
+                gameView.getMap().getPlayer().updateDir(angle);
             }
         });
 
