@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import static com.example.juegofinal.GameView.tile_size;
 
@@ -24,6 +25,9 @@ public class Player extends Sprite {
     private long timeToHurt = 500;
     private boolean hurting;
     private double range = 22.5;
+    private LinkedList<Bullet> bullets;
+    private int bulletsTimer;
+    private int bulletsRate;
 
 
     public double getHealth() {
@@ -68,6 +72,10 @@ public class Player extends Sprite {
         this.dir = dir;
     }
 
+    public void addBullet(int angle){
+        bullets.add(new Bullet(x, y, game, angle));
+    }
+
     private int dir;
 
 
@@ -82,6 +90,9 @@ public class Player extends Sprite {
         health = fullHealth;
         paint = new Paint();
         hurting = false;
+        bullets = new LinkedList();
+        bulletsRate = 40;
+        bulletsTimer = bulletsRate;
     }
 
 
@@ -99,10 +110,7 @@ public class Player extends Sprite {
 
     public void updateDir(int angle){
 
-        if(dx==0 && dy==0){
-            dir=0;
-        }
-        else if((angle>0 && angle<range) || (angle>315+range && angle<=359)){
+        if((angle>0 && angle<range) || (angle>315+range && angle<=359)){
             dir = 5;
         }
         else if(angle<270+range && angle>270-range){
@@ -129,6 +137,19 @@ public class Player extends Sprite {
 
     }
 
+    public int getDistance(int tx, int ty) {
+        return (int) Math.sqrt((ty - y) * (ty - y) + (tx - x) * (tx - x));
+    }
+
+    public int getAngle(int tx, int ty) {
+        float angle = (float) Math.toDegrees(Math.atan2(y - ty, tx - x));
+
+        if(angle < 0){
+            angle += 360;
+        }
+
+        return (int) angle;
+    }
 
     @Override
     public void update() {
@@ -181,6 +202,9 @@ public class Player extends Sprite {
         //enemies collision check
         Iterator i = game.getMap().getEnemies();
 
+        int minDistance = 2147483647;
+        int newAngle = 0;
+
         while (i.hasNext()) {
             Enemy e = (Enemy) i.next();
             if (!hurting && Rect.intersects(e.getCollisionShape(), getCollisionShape())) {
@@ -190,19 +214,61 @@ public class Player extends Sprite {
                 timeHurting = System.currentTimeMillis();
                 hurting = true;
             }
+            if(dx == 0 && dy == 0){
+                if(minDistance > getDistance(e.getX(), e.getY())){
+                    minDistance = getDistance(e.getX(), e.getY());
+                    newAngle = getAngle(e.getX(), e.getY());
+                }
+            }
         }
 
-            curr = anims[dir];
+        if(bulletsTimer < bulletsRate){
+            bulletsTimer += 1;
+        }
 
-            if (last != curr) {
-                curr.start();
+        if(dx == 0 && dy == 0) {
+            updateDir(newAngle);
+            if(bulletsTimer >= bulletsRate) {
+                addBullet(newAngle);
+                bulletsTimer = 0;
             }
+        }
 
+        curr = anims[dir];
+
+        if (last != curr) {
+            curr.start();
+        }
+
+        if(dx != 0 || dy != 0) {
             curr.update();
             last = curr;
-
-
         }
+
+        Iterator it = bullets.iterator();
+
+        while (it.hasNext()) {
+            Bullet b = (Bullet)it.next();
+
+            b.update();
+            Iterator ie = game.getMap().getEnemies();
+            while (ie.hasNext()) {
+                Enemy en = (Enemy) ie.next();
+                if (Rect.intersects(en.getCollisionShape(), b.getCollisionShape())) {
+                    bullets.remove(b);
+                    en.damage(20.0);
+                    if(en.getHealth() == 0){
+                        game.getMap().removeEnemy(en);
+                    }
+                }
+            }
+            Point tileBullet = getTileCollision(b.getX(), b.getY());
+            if(tileBullet != null){
+                bullets.remove(b);
+            }
+        }
+
+    }
 
 
     @Override
@@ -229,6 +295,15 @@ public class Player extends Sprite {
         paint.setColor(Color.BLACK);
         paint.setTextSize(30);
         g.drawText(String.valueOf((int)health), xP+tile_size/3, yP-10, paint);
+
+        Iterator i = bullets.iterator();
+
+        while (i.hasNext()) {
+            Bullet e = (Bullet)i.next();
+
+            e.draw(g,offsetX + width/2,offsetY + height/2);
+
+        }
 
     }
 

@@ -33,6 +33,9 @@ public class Enemy extends Sprite {
 
     private boolean attacking;
 
+    public void damage(double damage) {
+        this.health -= damage;
+    }
 
     Enemy(GameView game, int x1, int y1, Animation []a){
         super(x1,y1,tile_size,tile_size, (int)(tile_size*0.714),tile_size,game);
