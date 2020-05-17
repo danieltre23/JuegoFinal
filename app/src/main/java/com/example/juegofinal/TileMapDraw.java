@@ -161,11 +161,20 @@ public class TileMapDraw {
         for (int y=firstTileY; y<=lastTileY; y++) {
             for (int x=firstTileX; x <= lastTileX; x++) {
                 Tile tile = map.getTile(x, y);
+
                 if (tile != null) {
-                    tile.update();  //caco
-                    tile.draw(g,tilesToPixels(x)+offsetX, tilesToPixels(y)+offsetY);
+
+                        tile.update();  //caco
+                        tile.draw(g, tilesToPixels(x) + offsetX, tilesToPixels(y) + offsetY);
+                    }
                 }
             }
+
+        Tile tile = map.getGoal();
+
+        if(map.getEnemyN()==0){
+            tile.update();  //caco
+            tile.draw(g, tilesToPixels(map.goalX) + offsetX, tilesToPixels(map.goalY) + offsetY);
         }
 
         // draw player

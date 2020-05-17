@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         /* declare bg */
 
-        bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
+        bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg2);
         Bitmap black = BitmapFactory.decodeResource(getResources(), R.drawable.black);
 
         renderer = new TileMapDraw(bg, black);
@@ -121,6 +122,12 @@ public class GameView extends SurfaceView implements Runnable {
         //tile update in mapRenderer
 
         map.getPlayer().update();
+        if(map.getEnemyN()==0 && Rect.intersects(map.getPlayer().getCollisionShape(), map.getGoal().getCollisionShape())){
+            goToWin();
+        }
+        if(map.getPlayer().getHealth()<=0){
+            goToLose();
+        }
 
 
         //int y = -1, w = map.getWidth(), x, h = map.getHeight();

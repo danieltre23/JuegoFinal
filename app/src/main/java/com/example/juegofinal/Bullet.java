@@ -3,6 +3,7 @@ package com.example.juegofinal;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Point;
 
 import static com.example.juegofinal.GameView.tile_size;
 
@@ -20,7 +21,7 @@ public class Bullet extends Sprite {
      * @param game
      */
     public Bullet(int x, int y, GameView game, int angle) {
-        super(x,y,1,1, 1,1,game);
+        super(x,y,20,20, 20,20,game);
         dx = (int) (Math.cos(angle*3.14/180) * 35);
         dy = (int) (Math.sin(angle*3.14/180) * 35 * -1);
         b = BitmapFactory.decodeResource(game.getResources(), R.drawable.black);
@@ -31,6 +32,37 @@ public class Bullet extends Sprite {
     public void update() {
         x += dx;
         y += dy;
+    }
+
+    public boolean update2() {
+        float newX, newY;
+
+        newX = x + dx ;
+        newY = y + dy ;
+
+
+        //collision with tiles and end of map
+
+        //x movement check
+        Point tile = getTileCollision(newX, y);
+
+        if (tile == null) {
+            x = (int) newX;
+        } else {
+          return true;
+        }
+
+        //y movement check
+        tile = getTileCollision(x, newY);
+
+        if (tile == null) {
+            y = (int) newY;
+        } else {
+            // line up with the tile boundary
+           return true;
+        }
+
+        return false;
     }
 
     @Override

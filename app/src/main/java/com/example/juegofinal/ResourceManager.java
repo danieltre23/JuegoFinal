@@ -20,7 +20,7 @@ public class ResourceManager {
     private Animation animC;
     private Animation animG;
 
-    private Animation []animE1;
+    private Animation animE1;
     private Animation []animP1;
     Animation u,d,r,l,n;
 
@@ -94,39 +94,47 @@ public class ResourceManager {
             framesG[i-1] =x;
         }
 
-
-
-
         animG = new Animation(framesG,210);
 
 
-        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.enemy1);
-        x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
 
-        Bitmap[] framesE1 = {x};
 
-        animE1 = new Animation[] {new Animation (framesE1, 100),new Animation (framesE1, 100),new Animation (framesE1, 100),new Animation (framesE1, 100)};
+        Bitmap[] framesE1 = new Bitmap[5];
+
+        Bitmap image1, crop1;
+
+
+        image1 = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier("virus", "drawable", game.pac));
+
+        for(int j = 0; j<=4; j++){
+            crop1 = Bitmap.createBitmap(image1, j*image1.getWidth()/5, 0, image1.getWidth()/5, image1.getHeight()/2);
+            crop1 = Bitmap.createScaledBitmap(crop1, tile_size, (int) (tile_size),false);
+            framesE1[j] = crop1;
+        }
+
+        animE1 = new Animation (framesE1, 200);
 
 
         animP1 = new Animation[9] ;
-        Bitmap[] framesP1 = new Bitmap[5];
+        Bitmap[] framesP1 = new Bitmap[1];
 
 
         Bitmap image, crop;
 
 
-            for(int j = 1; j<=5; j++){
-                image = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier("p0" + j, "drawable", game.pac));
-                image = Bitmap.createScaledBitmap(image, tile_size, (int) (tile_size),false);
-                framesP1[j-1] = image;
-            }
+                image = BitmapFactory.decodeResource(game.getResources(), R.drawable.npa7);
+                image = Bitmap.createBitmap(image, 0, 0, image.getWidth()/4, image.getHeight());
+
+                 image = Bitmap.createScaledBitmap(image, tile_size, (int) (tile_size),false);
+                framesP1[0] = image;
+
 
             animP1[0] = new Animation(framesP1, 150);
             framesP1 = new Bitmap[4];
 
 
         for(int i=1; i<=8; i++){
-            file = "pa"+i;
+            file = "npa"+i;
             image = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier(file, "drawable", game.pac));
             for(int j = 0; j<=3; j++){
                 crop = Bitmap.createBitmap(image, j*image.getWidth()/4, 0, image.getWidth()/4, image.getHeight());
@@ -214,7 +222,7 @@ public class ResourceManager {
                      newMap.setTile(x,y, new Tile(game, tilesToPixels(x), tilesToPixels(y),animC));
                 }
                 else if (ch == 'G') {
-                     newMap.setTile(x,y, new Tile(game, tilesToPixels(x), tilesToPixels(y),animG));
+                     newMap.setTile(x,y, new Tile(game, tilesToPixels(x), tilesToPixels(y),animG),true);
                 }
                 else if (ch == '1') {
                     newMap.addEnemy(new Enemy(game,tilesToPixels(x), tilesToPixels(y), animE1));

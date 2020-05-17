@@ -86,7 +86,7 @@ public class Player extends Sprite {
         dir = 0;
         anims = a;
         curr = anims[dir];
-        fullHealth = 500;
+        fullHealth = 350;
         health = fullHealth;
         paint = new Paint();
         hurting = false;
@@ -207,6 +207,7 @@ public class Player extends Sprite {
 
         while (i.hasNext()) {
             Enemy e = (Enemy) i.next();
+            e.update();
             if (!hurting && Rect.intersects(e.getCollisionShape(), getCollisionShape())) {
                 // posible sonido o animacion
                 health-=20;
@@ -248,22 +249,24 @@ public class Player extends Sprite {
         Iterator it = bullets.iterator();
 
         while (it.hasNext()) {
-            Bullet b = (Bullet)it.next();
+            Bullet b = (Bullet) it.next();
+            boolean col = b.update2();
 
-            b.update();
             Iterator ie = game.getMap().getEnemies();
-            while (ie.hasNext()) {
-                Enemy en = (Enemy) ie.next();
-                if (Rect.intersects(en.getCollisionShape(), b.getCollisionShape())) {
-                    bullets.remove(b);
-                    en.damage(20.0);
-                    if(en.getHealth() == 0){
-                        game.getMap().removeEnemy(en);
+            if (!col) {
+                while (ie.hasNext()) {
+                    Enemy en = (Enemy) ie.next();
+                    if (Rect.intersects(en.getCollisionShape(), b.getCollisionShape())) {
+                        bullets.remove(b);
+                        en.damage(20.0 * 3);
+                        if (en.getHealth() <= 0) {
+                            game.getMap().removeEnemy(en);
+                        }
                     }
                 }
+
             }
-            Point tileBullet = getTileCollision(b.getX(), b.getY());
-            if(tileBullet != null){
+            else{
                 bullets.remove(b);
             }
         }

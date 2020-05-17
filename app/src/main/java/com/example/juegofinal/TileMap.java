@@ -13,13 +13,23 @@ public class TileMap {
 
     private Tile tiles[][];
     private Player player;
+    private Tile goal;
     private LinkedList<Enemy> enemies;
+    public int goalX;
+    public int goalY;
 
 
     /**
       CREATES A MAP WITH WIDTH AND HEIGHT AS NUMBER OF TILES
      */
+    public Tile getGoal(){
+        return goal;
+    }
 
+    public int getEnemyN(){
+        return enemies.size();
+
+    }
     TileMap(int width, int height){
         tiles = new Tile[width][height];
         enemies = new LinkedList();
@@ -63,6 +73,11 @@ public class TileMap {
      */
     public void setTile(int x, int y, Tile tile) {
         tiles[x][y] = tile;
+    }
+    public void setTile(int x, int y, Tile tile, boolean t) {
+        goalX=x;
+        goalY=y;
+        goal = tile;
     }
 
 
