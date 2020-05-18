@@ -73,7 +73,7 @@ public class Player extends Sprite {
     }
 
     public void addBullet(int angle){
-        bullets.add(new Bullet(x, y, game, angle));
+        bullets.add(new Bullet(x, y, game, angle, 65));
     }
 
     private int dir;
@@ -86,12 +86,12 @@ public class Player extends Sprite {
         dir = 0;
         anims = a;
         curr = anims[dir];
-        fullHealth = 350;
+        fullHealth = 550;
         health = fullHealth;
         paint = new Paint();
         hurting = false;
         bullets = new LinkedList();
-        bulletsRate = 40;
+        bulletsRate = 25;
         bulletsTimer = bulletsRate;
     }
 
@@ -208,14 +208,14 @@ public class Player extends Sprite {
         while (i.hasNext()) {
             Enemy e = (Enemy) i.next();
             e.update();
-            if (!hurting && Rect.intersects(e.getCollisionShape(), getCollisionShape())) {
+            if (!hurting && !e.isDying() && Rect.intersects(e.getCollisionShape(), getCollisionShape())) {
                 // posible sonido o animacion
                 health-=20;
                 health = Math.max(health,0);
                 timeHurting = System.currentTimeMillis();
                 hurting = true;
             }
-            if(dx == 0 && dy == 0){
+            if(dx == 0 && dy == 0 && !e.isDying()){
                 if(minDistance > getDistance(e.getX(), e.getY())){
                     minDistance = getDistance(e.getX(), e.getY());
                     newAngle = getAngle(e.getX(), e.getY());
@@ -260,7 +260,7 @@ public class Player extends Sprite {
                         bullets.remove(b);
                         en.damage(20.0 * 3);
                         if (en.getHealth() <= 0) {
-                            game.getMap().removeEnemy(en);
+                            en.kill();
                         }
                     }
                 }

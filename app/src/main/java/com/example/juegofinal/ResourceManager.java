@@ -22,7 +22,7 @@ public class ResourceManager {
 
     private Animation animE1;
     private Animation []animP1;
-    Animation u,d,r,l,n;
+    private Animation animED;
 
 
 
@@ -105,14 +105,28 @@ public class ResourceManager {
 
 
         image1 = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier("virus", "drawable", game.pac));
+        double dist1[] = {0,(68.0/322)*image1.getWidth(),(132.0/322)*image1.getWidth(),(199.0/322)*image1.getWidth(),(262.0/322)*image1.getWidth(), (322.0/322)*image1.getWidth()};
+        Log.i("virus", " "+ image1.getWidth());
 
         for(int j = 0; j<=4; j++){
-            crop1 = Bitmap.createBitmap(image1, j*image1.getWidth()/5, 0, image1.getWidth()/5, image1.getHeight()/2);
+            crop1 = Bitmap.createBitmap(image1, (int) (dist1[j]), 0, (int) (dist1[j+1]-dist1[j]) , image1.getHeight()/2);
             crop1 = Bitmap.createScaledBitmap(crop1, tile_size, (int) (tile_size),false);
             framesE1[j] = crop1;
         }
 
-        animE1 = new Animation (framesE1, 200);
+        animE1 = new Animation (framesE1, 120);
+        framesE1 = new Bitmap[6];
+
+        image1 = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier("virus", "drawable", game.pac));
+        double dist2[] = {0,(60.0/322)*image1.getWidth(),(107.0/322)*image1.getWidth(),(142.0/322)*image1.getWidth(),(165.0/322)*image1.getWidth(),(200.0/322)*image1.getWidth(),(234.0/322)*image1.getWidth()};
+
+        for(int j = 0; j<=5; j++){
+            crop1 = Bitmap.createBitmap(image1, (int)(dist2[j]), image1.getHeight()/2, (int) (dist2[j+1]-dist2[j]) ,image1.getHeight()/2);
+            crop1 = Bitmap.createScaledBitmap(crop1, tile_size, (int) (tile_size),false);
+            framesE1[j] = crop1;
+        }
+
+        animED = new Animation (framesE1, 110);
 
 
         animP1 = new Animation[9] ;
@@ -225,7 +239,7 @@ public class ResourceManager {
                      newMap.setTile(x,y, new Tile(game, tilesToPixels(x), tilesToPixels(y),animG),true);
                 }
                 else if (ch == '1') {
-                    newMap.addEnemy(new Enemy(game,tilesToPixels(x), tilesToPixels(y), animE1));
+                    newMap.addEnemy(new Enemy(game,tilesToPixels(x), tilesToPixels(y), animE1, animED));
                 }
             }
         }
