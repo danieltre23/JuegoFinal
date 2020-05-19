@@ -121,4 +121,6 @@ public class TileMap {
         return enemies.iterator();
     }
 
+    public boolean noEnemies() { return enemies.size() == 0; }
+
 }

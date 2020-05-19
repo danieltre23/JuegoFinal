@@ -229,7 +229,7 @@ public class Player extends Sprite {
 
         if(dx == 0 && dy == 0) {
             updateDir(newAngle);
-            if(bulletsTimer >= bulletsRate) {
+            if(bulletsTimer >= bulletsRate && !game.getMap().noEnemies()) {
                 addBullet(newAngle);
                 bulletsTimer = 0;
             }

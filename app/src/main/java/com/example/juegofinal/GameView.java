@@ -19,9 +19,6 @@ public class GameView extends SurfaceView implements Runnable {
     private int screenX, screenY;
     private Paint paint;
     private GameActivity activity;
-    private Button pausebtn;
-    private Button perdisteBtn;
-    private Button ganasteBtn;
     private TileMapDraw renderer;
     private Bitmap bg;
     private TileMap map;
@@ -53,15 +50,6 @@ public class GameView extends SurfaceView implements Runnable {
         Bitmap black = BitmapFactory.decodeResource(getResources(), R.drawable.black);
 
         renderer = new TileMapDraw(bg, black);
-
-
-
-        // declare buttons
-
-        pausebtn = new Button(getResources(), R.drawable.pause, 50,50);
-        perdisteBtn = new Button(getResources(), R.drawable.sick, 200, 200 );
-        ganasteBtn = new  Button(getResources(), R.drawable.smily, 800, 200);
-
 
         //create manager
        manager = new ResourceManager(this);
@@ -158,11 +146,6 @@ public class GameView extends SurfaceView implements Runnable {
 
             renderer.draw(canvas, map, screenX, screenY);
 
-
-            // draw buttons
-            pausebtn.draw(canvas);
-
-
             getHolder().unlockCanvasAndPost(canvas);
         }
 
@@ -195,27 +178,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (pausebtn.click(event)) {
-                    goToPause();
-                }
-
-                /*if (perdisteBtn.click(event)) {
-                    goToLose();
-                }
-                if (ganasteBtn.click(event)) {
-                    goToWin();
-                }*/
-                break;
-        }
-
-        return true;
-    }
-
     public void goToWin () {
         activity.startActivity(new Intent(activity, Ganaste.class));
         activity.finish();
@@ -223,11 +185,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void goToLose () {
         activity.startActivity(new Intent(activity, Perdiste.class));
-        activity.finish();
-    }
-
-    public void goToPause () {
-        activity.startActivity(new Intent(activity, Pause.class));
         activity.finish();
     }
 

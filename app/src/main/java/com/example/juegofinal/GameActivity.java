@@ -2,6 +2,7 @@ package com.example.juegofinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ public class GameActivity extends AppCompatActivity {
     private GameView gameView;
     private  RelativeLayout screenLayout;
     private int tile, screenW, screenH;
-    private  RelativeLayout joystickLayout;
+    private  RelativeLayout joystickLayout, pauseBtnLayout;
     private  RelativeLayout.LayoutParams params;
     private boolean firstTime;
     private int lastX = -400, lastY= -400;
@@ -33,7 +34,7 @@ public class GameActivity extends AppCompatActivity {
     private View.OnTouchListener gameViewListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent e) {
-            if(e.getAction()!= MotionEvent.ACTION_MOVE && !getJoystickRect().contains((int)e.getX(), (int)e.getY())) {
+            if(e.getAction() != MotionEvent.ACTION_MOVE && !getJoystickRect().contains((int)e.getX(), (int)e.getY())) {
                 change((int) e.getX(), (int) e.getY());
             }
             return true;
@@ -84,7 +85,7 @@ public class GameActivity extends AppCompatActivity {
         screenH = point.y;
         firstTime = true;
 
-         screenLayout = new RelativeLayout(this);
+        screenLayout = new RelativeLayout(this);
         gameView = new GameView(this, screenW, screenH);
         gameView.setOnTouchListener(gameViewListener);
 
@@ -94,9 +95,9 @@ public class GameActivity extends AppCompatActivity {
         params = new RelativeLayout.LayoutParams(tile*2, tile*2);
 
         LayoutInflater inflater = LayoutInflater.from(this);
-         joystickLayout = (RelativeLayout) inflater.inflate(R.layout.joystick, null, false);
+        joystickLayout = (RelativeLayout) inflater.inflate(R.layout.joystick, null, false);
 
-         joystick = (JoystickView) joystickLayout.findViewById(R.id.joystickView);
+        joystick = (JoystickView) joystickLayout.findViewById(R.id.joystickView);
 
         joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
@@ -112,9 +113,15 @@ public class GameActivity extends AppCompatActivity {
 
         screenLayout.addView(gameView);
 
+        pauseBtnLayout = (RelativeLayout) inflater.inflate(R.layout.pausebtn, null, false);
+        screenLayout.addView(pauseBtnLayout);
 
-
-
+        pauseBtnLayout.findViewById(R.id.pause).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(GameActivity.this, Pause.class));
+            }
+        });
 
         setContentView(screenLayout);
 
