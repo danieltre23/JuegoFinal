@@ -27,7 +27,7 @@ public class GameView extends SurfaceView implements Runnable {
     public static int tile_bit = 8;
     public String pac;
 
-    public GameView(GameActivity activity, int screenX, int screenY)  {
+    public GameView(GameActivity activity, int screenX, int screenY, int tileS)  {
         super(activity);
 
 
@@ -37,7 +37,7 @@ public class GameView extends SurfaceView implements Runnable {
         this.screenX = screenX;
         this.screenY = screenY;
 
-        tile_size = screenX/5;
+        tile_size = tileS;
        // tile_bit = Math.log(tile_size)/Math.log(2);
 
         paint = new Paint();
@@ -50,6 +50,7 @@ public class GameView extends SurfaceView implements Runnable {
         Bitmap black = BitmapFactory.decodeResource(getResources(), R.drawable.black);
 
         renderer = new TileMapDraw(bg, black);
+
 
         //create manager
        manager = new ResourceManager(this);
@@ -65,6 +66,8 @@ public class GameView extends SurfaceView implements Runnable {
                 System.out.println("no maps");
 
         }
+
+        renderer.setB(map);
 
 
 

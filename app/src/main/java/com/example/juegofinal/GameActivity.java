@@ -26,7 +26,7 @@ public class GameActivity extends AppCompatActivity {
     private int lastX = -400, lastY= -400;
 
     private Rect getJoystickRect(){
-        return new Rect(lastX, lastY, tile*2, tile*2);
+        return new Rect(lastX, lastY, tile*4, tile*4);
     }
 
 
@@ -55,8 +55,8 @@ public class GameActivity extends AppCompatActivity {
             params.topMargin = y - tile;
 
             params.leftMargin = Math.max(params.leftMargin, 0);
-            params.leftMargin = Math.min(params.leftMargin, screenW - tile*2);
-            params.topMargin = Math.min(params.topMargin, screenH -tile*2);
+            params.leftMargin = Math.min(params.leftMargin, screenW - tile*4);
+            params.topMargin = Math.min(params.topMargin, screenH -tile*4);
 
             screenLayout.addView(joystickLayout, params);
 
@@ -86,13 +86,13 @@ public class GameActivity extends AppCompatActivity {
         firstTime = true;
 
         screenLayout = new RelativeLayout(this);
-        gameView = new GameView(this, screenW, screenH);
+        tile = point.x/10;
+        gameView = new GameView(this, screenW, screenH,tile);
         gameView.setOnTouchListener(gameViewListener);
 
 
-        tile = point.x/5;
 
-        params = new RelativeLayout.LayoutParams(tile*2, tile*2);
+        params = new RelativeLayout.LayoutParams(tile*4, tile*4);
 
         LayoutInflater inflater = LayoutInflater.from(this);
         joystickLayout = (RelativeLayout) inflater.inflate(R.layout.joystick, null, false);

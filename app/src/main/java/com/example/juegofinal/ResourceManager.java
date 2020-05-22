@@ -3,6 +3,7 @@ package com.example.juegofinal;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.util.Log;
 import static com.example.juegofinal.GameView.tile_size;
 import static com.example.juegofinal.GameView.tile_bit;
@@ -23,6 +24,10 @@ public class ResourceManager {
     private Animation animE1;
     private Animation []animP1;
     private Animation animED;
+    private int starSize;
+    private int playerSize;
+    private int enemySize;
+    private Bitmap background;
 
 
 
@@ -68,8 +73,9 @@ public class ResourceManager {
 
         animA = new Animation(framesA,100);
 
-        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.b);
+        x = BitmapFactory.decodeResource(game.getResources(),R.drawable.black);
         x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
+        x = TileMapDraw.createImage(tile_size,tile_size, Color.rgb(9,46,44));
         Bitmap[] framesB = {x};
 
         animB = new Animation(framesB,100);
@@ -90,7 +96,7 @@ public class ResourceManager {
         for(int i= 1; i<=4; i++){
             file = "star" + i;
             x = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier(file, "drawable", game.pac));
-            x = Bitmap.createScaledBitmap(x, tile_size, tile_size,false);
+            x = Bitmap.createScaledBitmap(x, starSize, starSize,false);
             framesG[i-1] =x;
         }
 
@@ -110,7 +116,7 @@ public class ResourceManager {
 
         for(int j = 0; j<=4; j++){
             crop1 = Bitmap.createBitmap(image1, (int) (dist1[j]), 0, (int) (dist1[j+1]-dist1[j]) , image1.getHeight()/2);
-            crop1 = Bitmap.createScaledBitmap(crop1, tile_size, (int) (tile_size),false);
+            crop1 = Bitmap.createScaledBitmap(crop1, enemySize, enemySize,false);
             framesE1[j] = crop1;
         }
 
@@ -122,7 +128,7 @@ public class ResourceManager {
 
         for(int j = 0; j<=5; j++){
             crop1 = Bitmap.createBitmap(image1, (int)(dist2[j]), image1.getHeight()/2, (int) (dist2[j+1]-dist2[j]) ,image1.getHeight()/2);
-            crop1 = Bitmap.createScaledBitmap(crop1, tile_size, (int) (tile_size),false);
+            crop1 = Bitmap.createScaledBitmap(crop1, enemySize, enemySize,false);
             framesE1[j] = crop1;
         }
 
@@ -139,7 +145,7 @@ public class ResourceManager {
                 image = BitmapFactory.decodeResource(game.getResources(), R.drawable.npa7);
                 image = Bitmap.createBitmap(image, 0, 0, image.getWidth()/4, image.getHeight());
 
-                 image = Bitmap.createScaledBitmap(image, tile_size, (int) (tile_size),false);
+                 image = Bitmap.createScaledBitmap(image, playerSize,  playerSize,false);
                 framesP1[0] = image;
 
 
@@ -152,24 +158,13 @@ public class ResourceManager {
             image = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier(file, "drawable", game.pac));
             for(int j = 0; j<=3; j++){
                 crop = Bitmap.createBitmap(image, j*image.getWidth()/4, 0, image.getWidth()/4, image.getHeight());
-                crop = Bitmap.createScaledBitmap(crop, tile_size, (int) (tile_size),false);
+                crop = Bitmap.createScaledBitmap(crop, playerSize, playerSize,false);
                 framesP1[j] = crop;
             }
             animP1[i] = new Animation(framesP1, 150);
             framesP1 = new Bitmap[4];
         }
 
-       /* for(int i = 1; i<=4; i++) {
-            for (int j = 1; j <= 9; j++) {
-                file = "tile" + String.valueOf(i) + String.valueOf(j);
-                x = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier(file, "drawable", game.pac));
-                x = Bitmap.createScaledBitmap(x, tile_size, tile_size, false);
-                framesP1[j - 1] = x;
-            }
-            animP1[i] = new Animation(framesP1,150);
-            framesP1 = new Bitmap[9];
-        }
-*/
     }
     /*
         1 2 3
@@ -180,6 +175,10 @@ public class ResourceManager {
     public ResourceManager(GameView g){
 
         game = g;
+        starSize = (int)(tile_size*2.0);
+        enemySize = (int)(tile_size*1.5);
+        playerSize = (int)(tile_size*2.0);
+
         //create animations
         initAnimations();
 
@@ -236,16 +235,16 @@ public class ResourceManager {
                      newMap.setTile(x,y, new Tile(game, tilesToPixels(x), tilesToPixels(y),animC));
                 }
                 else if (ch == 'G') {
-                     newMap.setTile(x,y, new Tile(game, tilesToPixels(x), tilesToPixels(y),animG),true);
+                     newMap.setTile(x,y, new Tile(game, tilesToPixels(x)- starSize/4, tilesToPixels(y), starSize, starSize,animG),true);
                 }
                 else if (ch == '1') {
-                    newMap.addEnemy(new Enemy(game,tilesToPixels(x), tilesToPixels(y), animE1, animED));
+                    newMap.addEnemy(new Enemy1(game,tilesToPixels(x)-enemySize/4, tilesToPixels(y)-enemySize/2, enemySize, enemySize,animE1, animED));
                 }
             }
         }
 
         // add the player to the map (position with map)
-        newMap.setPlayer(new Player(game, tilesToPixels(width)/2 - tile_size, tilesToPixels(height)-tile_size, tile_size, (int) (tile_size),  animP1));
+        newMap.setPlayer(new Player(game, tilesToPixels(width)/2 - playerSize/2, tilesToPixels(height-16)-playerSize, playerSize, playerSize,  animP1));
 
         return newMap;
     }

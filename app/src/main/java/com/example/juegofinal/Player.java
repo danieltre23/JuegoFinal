@@ -73,20 +73,20 @@ public class Player extends Sprite {
     }
 
     public void addBullet(int angle){
-        bullets.add(new Bullet(x, y, game, angle, 65));
+        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65));
     }
 
     private int dir;
 
 
     Player(GameView game, int x1, int y1, int w, int h, Animation []a){
-        super(x1,y1,w,h, w,h,game);
+        super(x1,y1,w,h, w/2,(int)(h*1.2/2.0),game);
         dx=0;
         dy=0;
         dir = 0;
         anims = a;
         curr = anims[dir];
-        fullHealth = 550;
+        fullHealth = 500;
         health = fullHealth;
         paint = new Paint();
         hurting = false;
@@ -137,19 +137,6 @@ public class Player extends Sprite {
 
     }
 
-    public int getDistance(int tx, int ty) {
-        return (int) Math.sqrt((ty - y) * (ty - y) + (tx - x) * (tx - x));
-    }
-
-    public int getAngle(int tx, int ty) {
-        float angle = (float) Math.toDegrees(Math.atan2(y - ty, tx - x));
-
-        if(angle < 0){
-            angle += 360;
-        }
-
-        return (int) angle;
-    }
 
     @Override
     public void update() {
@@ -161,8 +148,8 @@ public class Player extends Sprite {
 
         float newX, newY;
 
-        newX = x + dx * (tile_size / 10)/5;
-        newY = y + dy * (tile_size / 10)/5;
+        newX = x + dx * (tile_size / 3)/5;
+        newY = y + dy * (tile_size / 3)/5;
 
 
         //collision with tiles and end of map
@@ -284,7 +271,7 @@ public class Player extends Sprite {
         yP-=20;
         //health bar bg
         paint.setColor(Color.LTGRAY);
-        g.drawRect(new Rect(xP,yP,xP+tile_size, yP+ tile_size/6),paint);
+        g.drawRect(new Rect(xP,yP,xP+getWidth(), yP+ getHeight()/6),paint);
 
         // health bar
         double percentage = ((getHealth()*1.0)/getFullHealth())*100.0;
@@ -292,19 +279,19 @@ public class Player extends Sprite {
         paint.setColor(Color.rgb( (int)((percentage > 50 ? 1 - 2 * (percentage - 50) / 100.0 : 1.0) * 255), (int)((percentage > 50 ? 1.0 : 2 * percentage / 100.0) * 255),0));
 
         percentage/=100.0;
-        g.drawRect(new Rect(xP,yP,xP+(int)(percentage*tile_size), yP+ tile_size/6),paint);
+        g.drawRect(new Rect(xP,yP,xP+(int)(percentage*getWidth()), yP+ getHeight()/6),paint);
 
         //string health
         paint.setColor(Color.BLACK);
         paint.setTextSize(30);
-        g.drawText(String.valueOf((int)health), xP+tile_size/3, yP-10, paint);
+        g.drawText(String.valueOf((int)health), xP+getWidth()/3, yP-10, paint);
 
         Iterator i = bullets.iterator();
 
         while (i.hasNext()) {
             Bullet e = (Bullet)i.next();
 
-            e.draw(g,offsetX + width/2,offsetY + height/2);
+            e.draw(g,offsetX,offsetY);
 
         }
 

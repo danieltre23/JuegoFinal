@@ -139,5 +139,20 @@ public abstract class Sprite {
         return null;
     }
 
+    public int getDistance(int tx, int ty) {
+        return (int) Math.sqrt((ty - y) * (ty - y) + (tx - x) * (tx - x));
+    }
+
+    public int getAngle(int tx, int ty) {
+        float angle = (float) Math.toDegrees(Math.atan2(y - ty, tx - x));
+
+        if(angle < 0){
+            angle += 360;
+        }
+
+        return (int) angle;
+    }
+
+
 
 }

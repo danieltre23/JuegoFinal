@@ -18,6 +18,15 @@ public class Tile extends Sprite {
 
     }
 
+    Tile(GameView game, int x1, int y1, int w, int h, Animation a){
+        super(x1,y1,w ,h, w,h, game);
+        destroyed = false;
+        normal = a;
+
+        //create animation
+
+    }
+
     public Animation getAnim() {
         return normal;
     }

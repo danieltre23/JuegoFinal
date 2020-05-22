@@ -7,15 +7,15 @@ import android.graphics.Rect;
 
 import static com.example.juegofinal.GameView.tile_size;
 
-public class Enemy extends Sprite {
+public abstract class Enemy extends Sprite {
 
-    private Animation curr;
-    private Animation dyingA;
-    private Paint paint;
-    private double health;
-    private double fullHealth;
-    private boolean dying;
-    private long time;
+    protected Animation curr;
+    protected Animation dyingA;
+    protected Paint paint;
+    protected double health;
+    protected double fullHealth;
+    protected boolean dying;
+    protected long time;
 
     public boolean isDying() {
         return dying;
@@ -47,15 +47,15 @@ public class Enemy extends Sprite {
         this.health -= damage;
     }
 
-    Enemy(GameView game, int x1, int y1, Animation a, Animation b){
-        super(x1,y1,tile_size,tile_size, (int)(tile_size),tile_size,game);
+    Enemy(GameView game, int x1, int y1, int w, int h, Animation a, Animation b, int healT){
+        super(x1,y1,w,h,w,h,game);
         attacking = false;
 
         curr = a;
         dyingA = b;
 
         paint = new Paint();
-        fullHealth = 300;
+        fullHealth = healT;
         health = fullHealth;
         dying=false;
     }
@@ -80,26 +80,6 @@ public class Enemy extends Sprite {
         return curr;
     }
 
-
-    @Override
-    public void update() {
-        //update x and y and curr
-
-        /*Animation newAnimation;
-
-        if(newAnimation!=curr){
-            curr = newAnimation;
-            curr.start();
-        }
-        */
-        curr.update();
-
-        if(dying && System.currentTimeMillis()>= time + curr.getLength()*curr.getSpeed() -20){  //dying animation is over -> remove
-            game.getMap().removeEnemy(this);
-        }
-
-    }
-
     @Override
     public void draw(Canvas g, int offsetX, int offsetY){
         int xP = Math.round(getX())+offsetX;
@@ -112,19 +92,19 @@ public class Enemy extends Sprite {
         //health bar bg
         if(!dying) {
             paint.setColor(Color.LTGRAY);
-            g.drawRect(new Rect(xP, yP, xP + tile_size, yP + tile_size / 6), paint);
+            g.drawRect(new Rect(xP, yP, xP + width, yP + height / 6), paint);
 
             // health bar
             double percentage = ((getHealth() * 1.0) / getFullHealth()) * 100.0;
             paint.setColor(Color.rgb((int) ((percentage > 50 ? 1 - 2 * (percentage - 50) / 100.0 : 1.0) * 255), (int) ((percentage > 50 ? 1.0 : 2 * percentage / 100.0) * 255), 0));
 
             percentage /= 100.0;
-            g.drawRect(new Rect(xP, yP, xP + (int) (percentage * tile_size), yP + tile_size / 6), paint);
+            g.drawRect(new Rect(xP, yP, xP + (int) (percentage * width), yP + height / 6), paint);
 
             //string health
             paint.setColor(Color.BLACK);
             paint.setTextSize(30);
-            g.drawText(String.valueOf((int) health), xP + tile_size / 3, yP - 10, paint);
+            g.drawText(String.valueOf((int) health), xP + width / 3, yP - 10, paint);
         }
     }
 }
