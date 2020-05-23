@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import static com.example.juegofinal.GameView.tile_size;
 
 public abstract class Enemy extends Sprite {
@@ -16,6 +19,9 @@ public abstract class Enemy extends Sprite {
     protected double fullHealth;
     protected boolean dying;
     protected long time;
+    private LinkedList<Bullet> bullets;
+    public int bulletsTimer;
+    public int bulletsRate;
 
     public boolean isDying() {
         return dying;
@@ -47,6 +53,18 @@ public abstract class Enemy extends Sprite {
         this.health -= damage;
     }
 
+    public void addBullet(int angle){
+        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65));
+    }
+
+    public Iterator getBullets() {
+        return bullets.iterator();
+    }
+
+    public void removeBullet(Bullet b) {
+        bullets.remove(b);
+    }
+
     Enemy(GameView game, int x1, int y1, int w, int h, Animation a, Animation b, int healT){
         super(x1,y1,w,h,w,h,game);
         attacking = false;
@@ -58,6 +76,10 @@ public abstract class Enemy extends Sprite {
         fullHealth = healT;
         health = fullHealth;
         dying=false;
+
+        bullets = new LinkedList();
+        bulletsRate = 25;
+        bulletsTimer = bulletsRate;
     }
 
 
@@ -105,6 +127,14 @@ public abstract class Enemy extends Sprite {
             paint.setColor(Color.BLACK);
             paint.setTextSize(30);
             g.drawText(String.valueOf((int) health), xP + width / 3, yP - 10, paint);
+        }
+        Iterator i = bullets.iterator();
+
+        while (i.hasNext()) {
+            Bullet e = (Bullet)i.next();
+
+            e.draw(g,offsetX,offsetY);
+
         }
     }
 }

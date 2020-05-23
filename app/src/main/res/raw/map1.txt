@@ -6,7 +6,8 @@
 #   B   fondo
 #   C   Cuadro Azul
 #   G       Goal -> Estrella
-#   1       Enemigo
+#   1       Enemigo 1
+#   2       Enemigo 2
 BBBBBBBBBBB
 BBBBBBBBBBB
 BBBBBBBBBBB
@@ -29,7 +30,7 @@ B         B
 B         B
 B   CCC   B
 B         B
-B         B
+B    2    B
 B         B
 B         B
 B         B

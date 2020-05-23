@@ -240,6 +240,9 @@ public class ResourceManager {
                 else if (ch == '1') {
                     newMap.addEnemy(new Enemy1(game,tilesToPixels(x)-enemySize/4, tilesToPixels(y)-enemySize/2, enemySize, enemySize,animE1, animED));
                 }
+                else if (ch == '2') {
+                    newMap.addEnemy(new Enemy2(game,tilesToPixels(x)-enemySize/4, tilesToPixels(y)-enemySize/2, enemySize, enemySize,animE1, animED));
+                }
             }
         }
 

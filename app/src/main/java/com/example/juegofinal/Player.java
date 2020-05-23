@@ -76,6 +76,10 @@ public class Player extends Sprite {
         bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65));
     }
 
+    public void hit() {
+        this.health -= 20;
+    }
+
     private int dir;
 
 
