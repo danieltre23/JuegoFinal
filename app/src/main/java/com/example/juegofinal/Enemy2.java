@@ -55,7 +55,7 @@ public class Enemy2 extends Enemy {
         //animation tick
         curr.update();
 
-        float newX = x, newY = y;
+        /*float newX = x, newY = y;
 
 
         if(isAttacking()) {
@@ -97,7 +97,7 @@ public class Enemy2 extends Enemy {
             dy = 0;
         }
 
-
+*/
         if(dying && System.currentTimeMillis()>= time + curr.getLength()*curr.getSpeed() -20){  //dying animation is over -> remove
             game.getMap().removeEnemy(this);
         }

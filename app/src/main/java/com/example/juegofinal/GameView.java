@@ -44,16 +44,9 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setTextSize(128);
         paint.setColor(Color.WHITE);
 
-        /* declare bg */
-
-        bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg2);
-        Bitmap black = BitmapFactory.decodeResource(getResources(), R.drawable.black);
-
-        renderer = new TileMapDraw(bg, black);
-
 
         //create manager
-       manager = new ResourceManager(this);
+        manager = new ResourceManager(this);
 
         //load first map ?
 
@@ -62,14 +55,12 @@ public class GameView extends SurfaceView implements Runnable {
             map = manager.loadMap(R.raw.map1, getResources());
         }
         catch (IOException ex) {
-                // no maps to load!
-                System.out.println("no maps");
+            // no maps to load!
+            System.out.println("no maps");
 
         }
 
-        renderer.setB(map);
-
-
+        renderer = new TileMapDraw(manager.getBackground());
 
     }
     public TileMapDraw getRenderer(){

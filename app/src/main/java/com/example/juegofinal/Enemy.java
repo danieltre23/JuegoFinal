@@ -1,5 +1,7 @@
 package com.example.juegofinal;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,6 +24,7 @@ public abstract class Enemy extends Sprite {
     private LinkedList<Bullet> bullets;
     public int bulletsTimer;
     public int bulletsRate;
+    private Bitmap bul;
 
     public boolean isDying() {
         return dying;
@@ -54,7 +57,7 @@ public abstract class Enemy extends Sprite {
     }
 
     public void addBullet(int angle){
-        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65));
+        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65,bul));
     }
 
     public Iterator getBullets() {
@@ -80,6 +83,9 @@ public abstract class Enemy extends Sprite {
         bullets = new LinkedList();
         bulletsRate = 25;
         bulletsTimer = bulletsRate;
+
+        bul = BitmapFactory.decodeResource(game.getResources(),R.drawable.b);
+        bul = Bitmap.createScaledBitmap(bul,20,20,false);
     }
 
 

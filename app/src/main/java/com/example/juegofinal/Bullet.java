@@ -20,12 +20,11 @@ public class Bullet extends Sprite {
      * @param y      <b>y</b> position of the object
      * @param game
      */
-    public Bullet(int x, int y, GameView game, int angle, int speed) {
+    public Bullet(int x, int y, GameView game, int angle, int speed, Bitmap bul) {
         super(x,y,20,20, 20,20,game);
         dx = (int) (Math.cos(angle*3.14/180) * speed);
         dy = (int) (Math.sin(angle*3.14/180) * speed * -1);
-        b = BitmapFactory.decodeResource(game.getResources(), R.drawable.black);
-        b = Bitmap.createScaledBitmap(b, 20, 20,false);
+        b = bul;
     }
 
     @Override

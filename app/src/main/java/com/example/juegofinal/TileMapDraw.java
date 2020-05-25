@@ -1,8 +1,12 @@
 package com.example.juegofinal;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
@@ -31,6 +35,7 @@ public class TileMapDraw {
     private Bitmap background;
     private Bitmap black;
     private Paint paint;
+    private GameView game;
 
     /**
      Converts a pixel position to a tile position.
@@ -68,10 +73,9 @@ public class TileMapDraw {
 
 
 
-    TileMapDraw(Bitmap bg, Bitmap b){
+    TileMapDraw(Bitmap bg){
         background = bg;
         paint = new Paint();
-        black = b;
     }
 
 
@@ -84,93 +88,6 @@ public class TileMapDraw {
 
     }
 
-    public void setB(TileMap map){
-        /*Bitmap back = Bitmap.createScaledBitmap(background,tilesToPixels(map.getWidth()), tilesToPixels(map.getHeight()),false);
-
-
-        for(int i=0; i<back.getHeight();i++){
-            for(int j=0; j<back.getWidth(); j++){
-                back.setPixel(i,j,Color.GREEN);
-            }
-        }
-*/
-
-        Bitmap c1 = createImage(tilesToPixels(1), tilesToPixels(1), Color.rgb(195,206,217));
-        Bitmap c2 = createImage(tilesToPixels(1), tilesToPixels(1), Color.rgb(217,229,240));
-        Bitmap c22 = c2;
-        Bitmap c11 = c1;
-
-        c1 = combineBitmaps(c1,c2);
-        c1 = combineBitmaps(c1,c1);
-        c1 = combineBitmaps(c1,c1);
-        c1 = combineBitmaps(c1,c11);
-
-
-        c2 = combineBitmaps(c2,c11);
-        c2 = combineBitmaps(c2,c2);
-        c2 = combineBitmaps(c2,c2);
-        c2 = combineBitmaps(c2,c22);
-
-        background = combineBitmapsV(c1,c2);
-        background = combineBitmapsV(background, background);
-        background = combineBitmapsV(background, background);
-        background = combineBitmapsV(background, background);
-        background = combineBitmapsV(background, background);
-        background = combineBitmapsV(background, background);
-
-
-
-    }
-
-    public static Bitmap createImage(int width, int height, int color) {
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint();
-        paint.setColor(color);
-        canvas.drawRect(0F, 0F, (float) width, (float) height, paint);
-        return bitmap;
-    }
-
-    /**
-     * <p>This method combines two images into one by rendering them side by side.</p>
-     *
-     * @param left The image that goes on the left side of the combined image.
-     * @param right The image that goes on the right side of the combined image.
-     * @return The combined image.
-     */
-    private Bitmap combineBitmaps(final Bitmap left, final Bitmap right){
-        // Get the size of the images combined side by side.
-        int width = left.getWidth() + right.getWidth();
-        int height = left.getHeight() > right.getHeight() ? left.getHeight() : right.getHeight();
-
-        // Create a Bitmap large enough to hold both input images and a canvas to draw to this
-        // combined bitmap.
-        Bitmap combined = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(combined);
-
-        // Render both input images into the combined bitmap and return it.
-        canvas.drawBitmap(left, 0f, 0f, null);
-        canvas.drawBitmap(right, left.getWidth(), 0f, null);
-
-        return combined;
-    }
-
-    private Bitmap combineBitmapsV(final Bitmap up, final Bitmap down){
-        // Get the size of the images combined side by side.
-        int height = down.getHeight() + up.getHeight();
-        int width = up.getWidth() > down.getWidth() ? up.getWidth() : down.getWidth();
-
-        // Create a Bitmap large enough to hold both input images and a canvas to draw to this
-        // combined bitmap.
-        Bitmap combined = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(combined);
-
-        // Render both input images into the combined bitmap and return it.
-        canvas.drawBitmap(up, 0f, 0f, null);
-        canvas.drawBitmap(down, 0f, up.getHeight(), null);
-
-        return combined;
-    }
     /**
      Draws the specified TileMap.
      */
@@ -251,9 +168,7 @@ public class TileMapDraw {
                 Tile tile = map.getTile(x, y);
 
                 if (tile != null) {
-
-                        tile.update();  //caco
-                        tile.draw(g, tilesToPixels(x) + offsetX, tilesToPixels(y) + offsetY);
+                     tile.draw(g, tilesToPixels(x) + offsetX, tilesToPixels(y) + offsetY);
                     }
                 }
             }

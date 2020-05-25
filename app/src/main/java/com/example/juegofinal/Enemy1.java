@@ -1,5 +1,6 @@
 package com.example.juegofinal;
 import android.graphics.Point;
+import android.graphics.Rect;
 
 import static com.example.juegofinal.GameView.tile_size;
 
@@ -32,7 +33,7 @@ public class Enemy1 extends Enemy {
         float newX = x, newY = y;
 
 
-        if(isAttacking()) {
+        if(isAttacking() && !Rect.intersects(game.getMap().getPlayer().getCollisionShape(), getCollisionShape())) {
             newX = x + dx;
             newY = y + dy;
         }

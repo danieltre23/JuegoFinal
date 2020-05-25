@@ -1,5 +1,7 @@
 package com.example.juegofinal;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,6 +28,7 @@ public class Player extends Sprite {
     private boolean hurting;
     private double range = 22.5;
     private LinkedList<Bullet> bullets;
+    private Bitmap bul;
     private int bulletsTimer;
     private int bulletsRate;
 
@@ -73,7 +76,7 @@ public class Player extends Sprite {
     }
 
     public void addBullet(int angle){
-        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65));
+        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65,bul));
     }
 
     public void hit() {
@@ -97,6 +100,8 @@ public class Player extends Sprite {
         bullets = new LinkedList();
         bulletsRate = 25;
         bulletsTimer = bulletsRate;
+        bul = BitmapFactory.decodeResource(game.getResources(),R.drawable.black);
+        bul = Bitmap.createScaledBitmap(bul,20,20,false);
     }
 
 
@@ -224,6 +229,9 @@ public class Player extends Sprite {
                 addBullet(newAngle);
                 bulletsTimer = 0;
             }
+            else if(game.getMap().noEnemies()){
+                dir=0;
+            }
         }
 
         curr = anims[dir];
@@ -232,7 +240,7 @@ public class Player extends Sprite {
             curr.start();
         }
 
-        if(dx != 0 || dy != 0) {
+        if(dx != 0 || dy != 0 || (dx==0 && dy==0 && game.getMap().noEnemies())) {
             curr.update();
             last = curr;
         }

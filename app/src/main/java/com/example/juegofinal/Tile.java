@@ -1,35 +1,30 @@
 package com.example.juegofinal;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import static com.example.juegofinal.GameView.tile_size;
 
 public class Tile extends Sprite {
 
-    private Animation normal;
+    private Bitmap normal;
     private boolean destroyed;
+    private Animation curr;
 
 
-    Tile(GameView game, int x1, int y1, Animation a){
+    Tile(GameView game, int x1, int y1, Bitmap a){
         super(x1,y1,tile_size ,tile_size, tile_size,tile_size, game);
         destroyed = false;
         normal = a;
-
-        //create animation
-
+        curr = null;
     }
 
     Tile(GameView game, int x1, int y1, int w, int h, Animation a){
         super(x1,y1,w ,h, w,h, game);
         destroyed = false;
-        normal = a;
-
-        //create animation
-
+        curr = a;
+        normal = null;
     }
 
-    public Animation getAnim() {
-        return normal;
-    }
 
     public boolean isDestroyed() {
         return destroyed;
@@ -42,12 +37,17 @@ public class Tile extends Sprite {
 
     @Override
     public void update() {
-        //update animation
-        normal.update();
+        // :)
+        curr.update();
     }
 
     @Override
     public void draw(Canvas canvas, int xT, int yT) {
-        canvas.drawBitmap(normal.getCurrentFrame(), xT, yT, game.getPaint());
+        if (normal != null) {
+            canvas.drawBitmap(normal, xT, yT, game.getPaint());
+        }
+        else{
+            canvas.drawBitmap(curr.getCurrentFrame(), xT, yT, game.getPaint());
+        }
     }
 }

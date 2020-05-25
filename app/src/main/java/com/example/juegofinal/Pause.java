@@ -18,7 +18,9 @@ public class Pause extends AppCompatActivity {
         findViewById(R.id.play).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Pause.this, GameActivity.class));
+                Intent intent = new Intent (Pause.this, GameActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
             }
         });
 

@@ -8,47 +8,19 @@
 #   G       Goal -> Estrella
 #   1       Enemigo 1
 #   2       Enemigo 2
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-B    G    B
-B         B
-B 1     1 B
-B         B
-B         B
-B   CCC   B
-B         B
-B    2    B
-B         B
-B         B
-B         B
-B         B
-B         B
-B         B
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
-BBBBBBBBBBB
+DUUUUUUUUUD
+L    G    R
+L         R
+L 1     1 R
+L         R
+L         R
+L   AAA   R
+L         R
+L         R
+L         R
+L         R
+L         R
+L         R
+L         R
+L         R
+DEEEEEEEEED
