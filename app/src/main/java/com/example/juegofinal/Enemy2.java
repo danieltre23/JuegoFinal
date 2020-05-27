@@ -11,8 +11,8 @@ public class Enemy2 extends Enemy {
 
     private int dx,dy,speed;
 
-    private void setGoal(int x1, int y1){
-        int angle = getAngle(x1,y1);
+    private void setGoal(Sprite s){
+        int angle = getAngle(s);
         if(bulletsTimer < bulletsRate){
             bulletsTimer += 1;
         }
@@ -51,7 +51,7 @@ public class Enemy2 extends Enemy {
             }
         }
 
-        setGoal(player.getX(), player.getY());
+        setGoal(player);
         //animation tick
         curr.update();
 

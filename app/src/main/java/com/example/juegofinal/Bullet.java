@@ -21,7 +21,7 @@ public class Bullet extends Sprite {
      * @param game
      */
     public Bullet(int x, int y, GameView game, int angle, int speed, Bitmap bul) {
-        super(x,y,20,20, 20,20,game);
+        super(x,y,tile_size/8,tile_size/8, tile_size/8,tile_size/8,game);
         dx = (int) (Math.cos(angle*3.14/180) * speed);
         dy = (int) (Math.sin(angle*3.14/180) * speed * -1);
         b = bul;

@@ -11,14 +11,18 @@
 DUUUUUUUUUD
 L    G    R
 L         R
-L 1     1 R
-L         R
-L         R
-L   AAA   R
 L         R
 L         R
 L         R
+LAAAAA    R
+L       1 R
 L         R
+L     AAAAR
+L         R
+L         R
+L   1     R
+L         R
+LAAAAAAA  R
 L         R
 L         R
 L         R

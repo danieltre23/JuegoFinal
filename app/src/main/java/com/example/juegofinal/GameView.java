@@ -53,6 +53,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         try {
             map = manager.loadMap(R.raw.map1, getResources());
+            map.setGrid();
         }
         catch (IOException ex) {
             // no maps to load!

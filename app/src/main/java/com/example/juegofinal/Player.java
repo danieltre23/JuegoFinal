@@ -212,9 +212,9 @@ public class Player extends Sprite {
                 hurting = true;
             }
             if(dx == 0 && dy == 0 && !e.isDying()){
-                if(minDistance > getDistance(e.getX(), e.getY())){
-                    minDistance = getDistance(e.getX(), e.getY());
-                    newAngle = getAngle(e.getX(), e.getY());
+                if(minDistance > getDistance(e)){
+                    minDistance = getDistance(e);
+                    newAngle = getAngle(e);
                 }
             }
         }

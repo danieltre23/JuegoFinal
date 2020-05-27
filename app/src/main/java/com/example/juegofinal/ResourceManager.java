@@ -186,7 +186,7 @@ public class ResourceManager {
 
         game = g;
         starSize = (int)(tile_size*2.0);
-        enemySize = (int)(tile_size*1.5);
+        enemySize = (int)(tile_size);
         playerSize = (int)(tile_size*2.0);
         backgroundheightSize = 14;
 
@@ -241,6 +241,7 @@ public class ResourceManager {
 
         //inside
 
+        //horizontal
         Bitmap temp = bD;
         Bitmap bD1 = darkenBitMap(temp);
         Bitmap accumH1 = bD1;
@@ -249,6 +250,7 @@ public class ResourceManager {
             accumH1 = combineBitmaps(accumH1,bD1);
         }
 
+        //vertical
         Bitmap accumV1 = accumH1;
 
         for(int i = 0; i<height-1;i++){
@@ -386,10 +388,10 @@ public class ResourceManager {
                      newMap.setTile(x,y, new Tile(game, tilesToPixels(x)- starSize/4, tilesToPixels(y), starSize, starSize,animG),true);
                 }
                 else if (ch == '1') {
-                    newMap.addEnemy(new Enemy1(game,tilesToPixels(x)-enemySize/4, tilesToPixels(y)-enemySize/2, enemySize, enemySize,animE1, animED));
+                    newMap.addEnemy(new Enemy1(game,tilesToPixels(x), tilesToPixels(y), enemySize, enemySize,animE1, animED));
                 }
                 else if (ch == '2') {
-                    newMap.addEnemy(new Enemy2(game,tilesToPixels(x)-enemySize/4, tilesToPixels(y)-enemySize/2, enemySize, enemySize,animE1, animED));
+                    newMap.addEnemy(new Enemy2(game,tilesToPixels(x), tilesToPixels(y), enemySize, enemySize,animE1, animED));
                 }
             }
         }

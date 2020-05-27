@@ -3,6 +3,7 @@ package com.example.juegofinal;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Pair;
 
 import static com.example.juegofinal.GameView.tile_size;
 
@@ -103,6 +104,22 @@ public abstract class Sprite {
         return new Rect(x + (width-realW)/2, y +(height-realH)/2, x + (width-realW)/2 + realW, y +(height-realH)/2 + realH);
     }
 
+    protected Pair<Integer,Integer> closestTile(int pixels){
+
+        float raw = (float)pixels/tile_size;
+        int round = Math.round(raw);
+        int floor = (int)Math.floor(raw);
+        int ceil = (int) Math.ceil(raw);
+
+        floor = (int)(100*Math.abs(floor-raw));
+        ceil = (int)(100*Math.abs(ceil-raw));
+
+        int percentage = Math.max(floor,ceil);
+
+
+        return new Pair(round, percentage==0? 100:percentage);
+    }
+
     public Point getTileCollision(float newX, float newY)
     {
         int sizeOffSetX =  (getWidth()-realW)/2;
@@ -139,12 +156,13 @@ public abstract class Sprite {
         return null;
     }
 
-    public int getDistance(int tx, int ty) {
-        return (int) Math.sqrt((ty - y) * (ty - y) + (tx - x) * (tx - x));
+    public int getDistance(Sprite s) {
+        return (int) Math.sqrt((s.getY()+s.getHeight()/2 - y-getHeight()/2) * (s.getY()+s.getHeight()/2 - y-getHeight()/2) + (s.getX() + s.getWidth()/2 - x - getWidth()/2) * (s.getX() + s.getWidth()/2 - x - getWidth()/2));
     }
 
-    public int getAngle(int tx, int ty) {
-        float angle = (float) Math.toDegrees(Math.atan2(y - ty, tx - x));
+    public int getAngle(Sprite s) {
+
+        float angle = (float) Math.toDegrees(Math.atan2(y+getHeight()/2-s.getY()-s.getHeight()/2, s.getX()+s.getWidth()/2-x-getWidth()/2));
 
         if(angle < 0){
             angle += 360;

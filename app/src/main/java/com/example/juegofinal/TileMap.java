@@ -17,8 +17,27 @@ public class TileMap {
     private LinkedList<Enemy> enemies;
     public int goalX;
     public int goalY;
+    private Grid grid;
 
 
+    public void setGrid(){
+
+        int width = getWidth();
+        int height = getHeight();
+        boolean[][] tiles = new boolean[width][height];
+
+// Fill it with values, false represents blocking tile
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                tiles[x][y] = getTile(x,y)!=null? false : true;
+
+         grid = new Grid(width, height, tiles);
+
+    }
+
+    public Grid getGrid(){
+    return grid;
+    }
     /**
       CREATES A MAP WITH WIDTH AND HEIGHT AS NUMBER OF TILES
      */
