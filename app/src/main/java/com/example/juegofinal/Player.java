@@ -7,6 +7,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.util.Log;
 
 import java.util.Iterator;
@@ -17,6 +20,7 @@ import static com.example.juegofinal.GameView.tile_size;
 public class Player extends Sprite {
 
 
+    private boolean playing;
     private Animation curr;
     private Animation last;
     private Animation []anims;
@@ -31,14 +35,21 @@ public class Player extends Sprite {
     private Bitmap bul;
     private int bulletsTimer;
     private int bulletsRate;
+    private SoundPool soundPool;
+    private int sound1,sound2,sound3;
 
 
     public double getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void setHealth(int health1) {
+        if(health1<health){
+            soundPool.play(sound3,(float)0.6,(float)0.6,1,0,1);
+        }
+        health = health1;
+        health = Math.max(health,0);
+
     }
 
     public double getFullHealth() {
@@ -76,11 +87,13 @@ public class Player extends Sprite {
     }
 
     public void addBullet(int angle){
-        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65,bul));
+        soundPool.play(sound2,(float)0.6,(float)0.6,1,0,1);
+        playing = false;
+        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65,bul,tile_size/2, (int)(((float)getHeight()/getWidth())*(tile_size/2))));
     }
 
     public void hit() {
-        this.health -= 20;
+        setHealth((int) (health-20));
     }
 
     private int dir;
@@ -100,10 +113,20 @@ public class Player extends Sprite {
         bullets = new LinkedList();
         bulletsRate = 25;
         bulletsTimer = bulletsRate;
-        bul = BitmapFactory.decodeResource(game.getResources(),R.drawable.black);
-        bul = Bitmap.createScaledBitmap(bul,20,20,false);
+        bul = BitmapFactory.decodeResource(game.getResources(),R.drawable.aguja);
+
+        soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        playing  = false;
+
+        sound1 = soundPool.load(game.getActivity(), R.raw.walk, 1);  //walking
+        sound2 = soundPool.load(game.getActivity(), R.raw.coin, 1);  //shooting
+        sound3 = soundPool.load(game.getActivity(),R.raw.cough, 1);  //playerHurt
+
     }
 
+    public SoundPool getSoundPool(){
+        return soundPool;
+    }
 
     public Animation getAnim(){
         return curr;
@@ -149,6 +172,19 @@ public class Player extends Sprite {
 
     @Override
     public void update() {
+
+
+        // if moving
+        if((dx!=0 || dy!=0)){
+            if(!playing) {
+                soundPool.play(sound1, 1, 1, 1, 0, 1);
+                playing = true;
+            }
+        }else if(game.getMap().getEnemyN()==0){
+            soundPool.play(sound2,0,0,1,0,1);
+            playing = false;
+        }
+
         //update hurting flag
         if(hurting && System.currentTimeMillis()-timeHurting>timeToHurt){
             hurting  = false;
@@ -206,8 +242,7 @@ public class Player extends Sprite {
             e.update();
             if (!hurting && !e.isDying() && Rect.intersects(e.getCollisionShape(), getCollisionShape())) {
                 // posible sonido o animacion
-                health-=20;
-                health = Math.max(health,0);
+                setHealth((int) (health-20));
                 timeHurting = System.currentTimeMillis();
                 hurting = true;
             }

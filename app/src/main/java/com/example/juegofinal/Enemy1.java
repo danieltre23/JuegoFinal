@@ -65,7 +65,7 @@ public class Enemy1 extends Enemy {
             List<Point2D> path = PathFinding.findPath(game.getMap().getGrid(), start, target, true);
 
             if (path.iterator().hasNext()) {
-                if (closestTile(x).second >= 99 && closestTile(y).second >= 99) {
+                if ((closestTile(x).second >= 99 && closestTile(y).second >= 99) || (dx==0 && dy==0)) {
                     updateDXDY(start, path.iterator().next());
                 }
             } else {

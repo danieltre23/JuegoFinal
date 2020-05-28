@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import java.io.IOException;
@@ -26,6 +28,12 @@ public class GameView extends SurfaceView implements Runnable {
     public static int tile_size = 256;
     public static int tile_bit = 8;
     public String pac;
+    private int winSound, loseSound;
+    private SoundPool soundPool;
+
+    public GameActivity getActivity(){
+        return activity;
+    }
 
     public GameView(GameActivity activity, int screenX, int screenY, int tileS)  {
         super(activity);
@@ -62,6 +70,10 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         renderer = new TileMapDraw(manager.getBackground());
+        soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+
+        winSound = soundPool.load(getActivity(), R.raw.win, 1);
+        loseSound = soundPool.load(getActivity(),R.raw.lose,1);
 
     }
     public TileMapDraw getRenderer(){
@@ -174,11 +186,15 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void goToWin () {
+        map.getPlayer().getSoundPool().autoPause();
+        soundPool.play(winSound,(float)0.6,(float)0.6,1,0,1);
         activity.startActivity(new Intent(activity, Ganaste.class));
         activity.finish();
     }
 
     public void goToLose () {
+        map.getPlayer().getSoundPool().autoPause();
+        soundPool.play(loseSound,(float)0.6,(float)0.6,1,0,1);
         activity.startActivity(new Intent(activity, Perdiste.class));
         activity.finish();
     }

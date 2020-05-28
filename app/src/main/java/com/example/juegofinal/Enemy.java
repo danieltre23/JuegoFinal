@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.SoundPool;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,6 +27,8 @@ public abstract class Enemy extends Sprite {
     public int bulletsTimer;
     public int bulletsRate;
     private Bitmap bul;
+    private SoundPool soundPool;
+    private int sound1,sound2;
 
     public boolean isDying() {
         return dying;
@@ -57,7 +61,7 @@ public abstract class Enemy extends Sprite {
     }
 
     public void addBullet(int angle){
-        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65,bul));
+        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65,bul,20,20));
     }
 
     public Iterator getBullets() {
@@ -84,8 +88,10 @@ public abstract class Enemy extends Sprite {
         bulletsRate = 25;
         bulletsTimer = bulletsRate;
 
+        soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        sound1 = soundPool.load(game.getActivity(), R.raw.kill, 1);  //killed
+
         bul = BitmapFactory.decodeResource(game.getResources(),R.drawable.b);
-        bul = Bitmap.createScaledBitmap(bul,20,20,false);
     }
 
 
@@ -98,6 +104,7 @@ public abstract class Enemy extends Sprite {
     }
 
     public void kill(){
+        soundPool.play(sound1,(float)0.4,(float)0.4,1,0,1);
         dying=true;
         curr = dyingA;
         curr.start();

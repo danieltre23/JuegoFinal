@@ -119,6 +119,7 @@ public class GameActivity extends AppCompatActivity {
         pauseBtnLayout.findViewById(R.id.pause).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                gameView.getMap().getPlayer().getSoundPool().autoPause();  //pause sounds
                 startActivity(new Intent(GameActivity.this, Pause.class));
             }
         });
