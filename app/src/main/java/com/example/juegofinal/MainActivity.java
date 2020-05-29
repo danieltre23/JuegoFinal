@@ -10,6 +10,8 @@ import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static boolean soundOn = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,18 +22,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, GameActivity.class));
-            }
-        });
-        findViewById(R.id.niveles).setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Niveles.class));
-            }
-        });
-        findViewById(R.id.settings).setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Settings.class));
             }
         });
     }

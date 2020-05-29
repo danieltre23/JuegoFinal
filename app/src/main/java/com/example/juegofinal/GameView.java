@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import java.io.IOException;
 
+import static com.example.juegofinal.MainActivity.soundOn;
+
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -174,6 +176,11 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
+    public static void play(SoundPool p , int id, double intensity){
+        if(soundOn){
+            p.play(id,(float)intensity,(float)intensity,1,0,1);
+        }
+    }
     public void pause () {
 
         try {
@@ -187,14 +194,14 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void goToWin () {
         map.getPlayer().getSoundPool().autoPause();
-        soundPool.play(winSound,(float)0.6,(float)0.6,1,0,1);
+        play(soundPool, winSound,0.6);
         activity.startActivity(new Intent(activity, Ganaste.class));
         activity.finish();
     }
 
     public void goToLose () {
         map.getPlayer().getSoundPool().autoPause();
-        soundPool.play(loseSound,(float)0.6,(float)0.6,1,0,1);
+        play(soundPool, loseSound,0.6);
         activity.startActivity(new Intent(activity, Perdiste.class));
         activity.finish();
     }

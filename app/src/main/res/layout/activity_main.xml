@@ -29,18 +29,7 @@
         android:padding="10dp"
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Niveles"
-        android:layout_below="@id/jugar"
-        android:layout_centerHorizontal="true"
-        android:textSize="25dp"
-        android:id="@+id/niveles"
-        android:background="@color/colorBackgroundLight"
-        android:padding="10dp"
-        android:layout_margin="20dp"
-        />
+
 
     <ImageView
         android:layout_width="200dp"
@@ -51,13 +40,6 @@
         android:src="@drawable/damm"
         />
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/settings"
-        android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
-        android:id="@+id/settings"
-        />
+
 
 </RelativeLayout>

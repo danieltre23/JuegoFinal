@@ -104,7 +104,7 @@ public abstract class Enemy extends Sprite {
     }
 
     public void kill(){
-        soundPool.play(sound1,(float)0.4,(float)0.4,1,0,1);
+        GameView.play(soundPool,sound1,0.4);
         dying=true;
         curr = dyingA;
         curr.start();

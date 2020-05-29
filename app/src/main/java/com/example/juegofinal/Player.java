@@ -45,7 +45,7 @@ public class Player extends Sprite {
 
     public void setHealth(int health1) {
         if(health1<health){
-            soundPool.play(sound3,(float)0.6,(float)0.6,1,0,1);
+            GameView.play(soundPool,sound3,0.6);
         }
         health = health1;
         health = Math.max(health,0);
@@ -87,7 +87,7 @@ public class Player extends Sprite {
     }
 
     public void addBullet(int angle){
-        soundPool.play(sound2,(float)0.6,(float)0.6,1,0,1);
+        GameView.play(soundPool,sound2,0.6);
         playing = false;
         bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65,bul,tile_size/2, (int)(((float)getHeight()/getWidth())*(tile_size/2))));
     }
@@ -177,11 +177,11 @@ public class Player extends Sprite {
         // if moving
         if((dx!=0 || dy!=0)){
             if(!playing) {
-                soundPool.play(sound1, 1, 1, 1, 0, 1);
+                GameView.play(soundPool,sound1,0.6);
                 playing = true;
             }
         }else if(game.getMap().getEnemyN()==0){
-            soundPool.play(sound2,0,0,1,0,1);
+            GameView.play(soundPool,sound2,0);
             playing = false;
         }
 
