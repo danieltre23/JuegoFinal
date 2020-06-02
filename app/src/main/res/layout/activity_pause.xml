@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="76dp"
-        android:text="Nivel 1"
+        android:text="Pausa"
         android:textColor="@color/colorTitles"
         android:textSize="70dp"
         app:layout_constraintEnd_toEndOf="parent"

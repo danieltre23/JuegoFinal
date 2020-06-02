@@ -15,13 +15,6 @@ public class Perdiste extends AppCompatActivity {
         setContentView(R.layout.activity_perdiste);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        findViewById(R.id.reiniciar).setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Perdiste.this, GameActivity.class));
-            }
-        });
-
         findViewById(R.id.home).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

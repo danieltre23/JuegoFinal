@@ -32,15 +32,16 @@ public class GameView extends SurfaceView implements Runnable {
     public String pac;
     private int winSound, loseSound;
     private SoundPool soundPool;
+    private int nivel;
 
     public GameActivity getActivity(){
         return activity;
     }
 
-    public GameView(GameActivity activity, int screenX, int screenY, int tileS)  {
+    public GameView(GameActivity activity, int screenX, int screenY, int tileS, int nivel, int health)  {
         super(activity);
 
-
+        this.nivel = nivel;
         this.activity = activity;
         pac = activity.getPackageName();
 
@@ -62,8 +63,44 @@ public class GameView extends SurfaceView implements Runnable {
 
 
         try {
-            map = manager.loadMap(R.raw.map1, getResources());
+            switch (nivel){
+                case 0:
+                    map = manager.loadMap(R.raw.map0, getResources());
+                    break;
+                case 1:
+                    map = manager.loadMap(R.raw.map1, getResources());
+                    break;
+                case 2:
+                    map = manager.loadMap(R.raw.map2, getResources());
+                    break;
+                case 3:
+                    map = manager.loadMap(R.raw.map3, getResources());
+                    break;
+                case 4:
+                    map = manager.loadMap(R.raw.map4, getResources());
+                    break;
+                case 5:
+                    map = manager.loadMap(R.raw.map5, getResources());
+                    break;
+                case 6:
+                    map = manager.loadMap(R.raw.map6, getResources());
+                    break;
+                case 7:
+                    map = manager.loadMap(R.raw.map7, getResources());
+                    break;
+                case 8:
+                    map = manager.loadMap(R.raw.map8, getResources());
+                    break;
+                case 9:
+                    map = manager.loadMap(R.raw.map9, getResources());
+                    break;
+                case 10:
+                    map = manager.loadMap(R.raw.map10, getResources());
+                    break;
+            }
             map.setGrid();
+            System.out.println("El health es " + health);
+            map.getPlayer().setHealth(health);
         }
         catch (IOException ex) {
             // no maps to load!
@@ -195,7 +232,11 @@ public class GameView extends SurfaceView implements Runnable {
     public void goToWin () {
         map.getPlayer().getSoundPool().autoPause();
         play(soundPool, winSound,0.6);
-        activity.startActivity(new Intent(activity, Ganaste.class));
+        Intent nextLevel = new Intent(activity, Ganaste.class);
+        nextLevel.putExtra("nivel", nivel);
+        System.out.println("El health es " + map.getPlayer().getHealth());
+        nextLevel.putExtra("health", (int)map.getPlayer().getHealth());
+        activity.startActivity(nextLevel);
         activity.finish();
     }
 

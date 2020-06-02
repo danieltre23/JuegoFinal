@@ -76,6 +76,10 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent myIntent = getIntent();
+        int nivel = myIntent.getExtras().getInt("nivel");
+        int health = myIntent.getExtras().getInt("health");
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Point point = new Point();
@@ -87,7 +91,7 @@ public class GameActivity extends AppCompatActivity {
 
         screenLayout = new RelativeLayout(this);
         tile = point.x/10;
-        gameView = new GameView(this, screenW, screenH,tile);
+        gameView = new GameView(this, screenW, screenH,tile, nivel, health);
         gameView.setOnTouchListener(gameViewListener);
 
 

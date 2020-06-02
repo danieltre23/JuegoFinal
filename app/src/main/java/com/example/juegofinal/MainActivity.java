@@ -66,7 +66,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 music.pause();
-                startActivity(new Intent(MainActivity.this, GameActivity.class));
+                Intent gameIntent = new Intent(MainActivity.this, GameActivity.class);
+                gameIntent.putExtra("nivel", 0);
+                gameIntent.putExtra("health", 500);
+                startActivity(gameIntent);
             }
         });
     }

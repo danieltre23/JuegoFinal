@@ -14,8 +14,14 @@
 DUUUUUUUUUD
 L    G    R
 L         R
-L   1 1   R
+L  1   1  R
+LCCC   CCCR
 L         R
+L         R
+L  1   1  R
+LBBB   BBBR
+L         R
+L 1     1 R
 L         R
 L         R
 L         R
