@@ -23,6 +23,15 @@ public class Pause extends AppCompatActivity {
         setContentView(R.layout.activity_pause);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        final ImageView iMusica =  findViewById(R.id.sonido);
+
+        if(soundOn){
+            iMusica.setImageResource(R.drawable.musicwhite);
+        }
+        else{
+            iMusica.setImageResource(R.drawable.music);
+        }
+
         findViewById(R.id.play).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -32,12 +41,6 @@ public class Pause extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.reiniciar).setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Pause.this, GameActivity.class));
-            }
-        });
 
         findViewById(R.id.home).setOnClickListener(new View.OnClickListener(){
             @Override
@@ -47,7 +50,6 @@ public class Pause extends AppCompatActivity {
         });
 
 
-        final ImageView iMusica =  findViewById(R.id.sonido);
 
         findViewById(R.id.sonido).setOnClickListener(new View.OnClickListener(){
             @Override

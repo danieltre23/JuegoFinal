@@ -15,10 +15,20 @@ public class TileMap {
     private Player player;
     private Tile goal;
     private LinkedList<Enemy> enemies;
+    private LinkedList<PowerUp>powerups;
     public int goalX;
     public int goalY;
     private Grid grid;
 
+    public void addPowerUp(PowerUp s){
+        powerups.add(s);
+    }
+    public void removePowerUp(PowerUp s){
+        powerups.remove(s);
+    }
+    public Iterator getPowerUps(){
+        return powerups.iterator();
+    }
 
     public void setGrid(){
 
@@ -52,6 +62,7 @@ public class TileMap {
     TileMap(int width, int height){
         tiles = new Tile[width][height];
         enemies = new LinkedList();
+        powerups = new LinkedList();
         player =  null;
     }
     /**

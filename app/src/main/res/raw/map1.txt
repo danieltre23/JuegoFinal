@@ -2,27 +2,25 @@
 # (Lines that start with '#' are comments)
 # The tiles are:
 #   (Space) Empty tile
-#   A   Cuadro NARANJA
-#   B   fondo
-#   C   Cuadro Azul
+#   A   Cuadro Celeste
+#   B   Madera con Metal
+#   C   Cuadro de Madera
+#   D   Fondo
+#   R,L,E,U Orillas
 #   G       Goal -> Estrella
 #   1       Enemigo 1
 #   2       Enemigo 2
+#   P       PowerUp
 DUUUUUUUUUD
 L    G    R
 L         R
+L  P      R
 L         R
 L         R
+L CBCCA   R
+L      2  R
 L         R
-LAAAAA    R
-L       1 R
-L         R
-L     AAAAR
-L         R
-L         R
-L   1     R
-L         R
-LAAAAAAA  R
+L   BBB   R
 L         R
 L         R
 L         R

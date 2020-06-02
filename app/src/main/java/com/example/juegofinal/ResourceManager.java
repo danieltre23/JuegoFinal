@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class ResourceManager {
 
     private GameView game;
-    private Bitmap bA, bB, bC, bD, bE , bR, bL, bU, background;
+    private Bitmap bA, bB, bC, bD, bE , bR, bL, bU, background, bitmapPowerUp;
     private Animation animE1, animED, animG;
     private Animation []animP1;
 
@@ -69,16 +69,19 @@ public class ResourceManager {
     void initAnimations(){
         Bitmap x,y,w,z;
 
-        //imagenes a b y c
 
+        bitmapPowerUp = BitmapFactory.decodeResource(game.getResources(), R.drawable.oie_transparent);
+        bitmapPowerUp = Bitmap.createScaledBitmap(bitmapPowerUp,tile_size,tile_size,false);
+
+        //imagenes a b y c
         bA = BitmapFactory.decodeResource(game.getResources(),R.drawable.platform_tile_021);
         bA = Bitmap.createScaledBitmap(bA, tile_size, tile_size,false);
 
-        bB = BitmapFactory.decodeResource(game.getResources(),R.drawable.platform_tile_018);
+        bB = BitmapFactory.decodeResource(game.getResources(),R.drawable.platform_tile_026);
         bB = Bitmap.createScaledBitmap(bB, tile_size, tile_size,false);
         //bB = TileMapDraw.createImage(tile_size,tile_size, Color.rgb(9,46,44));
 
-        bC = BitmapFactory.decodeResource(game.getResources(),R.drawable.c);
+        bC = BitmapFactory.decodeResource(game.getResources(),R.drawable.platform_tile_035);
         bC = Bitmap.createScaledBitmap(bC, tile_size, tile_size,false);
 
         bD = BitmapFactory.decodeResource(game.getResources(),R.drawable.platform_tile_011);
@@ -393,6 +396,9 @@ public class ResourceManager {
                 else if (ch == '2') {
                     newMap.addEnemy(new Enemy2(game,tilesToPixels(x), tilesToPixels(y), enemySize, enemySize,animE1, animED));
                 }
+                else if (ch=='P'){
+                     newMap.addPowerUp(new PowerUp(tilesToPixels(x), tilesToPixels(y), tile_size, tile_size, bitmapPowerUp, game));
+                 }
             }
         }
         // create background (static tiles outside the original map)
@@ -401,6 +407,7 @@ public class ResourceManager {
         // add the player to the map (position with map)
         newMap.setPlayer(new Player(game, tilesToPixels(width)/2 - playerSize/2, tilesToPixels(fullHeight-16)-playerSize, playerSize, playerSize,  animP1));
 
+        Log.i("a", "mapa leido");
         return newMap;
     }
 

@@ -36,7 +36,7 @@ public class Player extends Sprite {
     private int bulletsTimer;
     private int bulletsRate;
     private SoundPool soundPool;
-    private int sound1,sound2,sound3;
+    private int sound1,sound2,sound3,sound4;
 
 
     public double getHealth() {
@@ -115,13 +115,13 @@ public class Player extends Sprite {
         bulletsTimer = bulletsRate;
         bul = BitmapFactory.decodeResource(game.getResources(),R.drawable.aguja);
 
-        soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
         playing  = false;
 
         sound1 = soundPool.load(game.getActivity(), R.raw.walk, 1);  //walking
         sound2 = soundPool.load(game.getActivity(), R.raw.coin, 1);  //shooting
         sound3 = soundPool.load(game.getActivity(),R.raw.cough, 1);  //playerHurt
-
+        sound4 = soundPool.load(game.getActivity(), R.raw.powerup2,1); //powerup
     }
 
     public SoundPool getSoundPool(){
@@ -305,6 +305,22 @@ public class Player extends Sprite {
             }
         }
 
+        //powerups
+
+
+        Iterator itP = game.getMap().getPowerUps();
+
+
+        while(itP.hasNext()){
+            PowerUp P = (PowerUp)itP.next();
+            if(Rect.intersects(getCollisionShape(),P.getCollisionShape())){
+                GameView.play(soundPool,sound4,1);
+                health += (int)((fullHealth - health)*0.5);
+                game.getMap().removePowerUp(P);
+            }
+        }
+
+
     }
 
 
@@ -331,7 +347,7 @@ public class Player extends Sprite {
         //string health
         paint.setColor(Color.BLACK);
         paint.setTextSize(30);
-        g.drawText(String.valueOf((int)health), xP+getWidth()/3, yP-10, paint);
+        //g.drawText(String.valueOf((int)health), xP+getWidth()/3, yP-10, paint);
 
         Iterator i = bullets.iterator();
 

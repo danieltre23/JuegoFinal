@@ -91,7 +91,7 @@ public abstract class Enemy extends Sprite {
         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         sound1 = soundPool.load(game.getActivity(), R.raw.kill, 1);  //killed
 
-        bul = BitmapFactory.decodeResource(game.getResources(),R.drawable.b);
+        bul = ResourceManager.createImage(50,50,Color.GREEN);
     }
 
 
@@ -139,7 +139,7 @@ public abstract class Enemy extends Sprite {
             //string health
             paint.setColor(Color.BLACK);
             paint.setTextSize(30);
-            g.drawText(String.valueOf((int) health), xP + width / 3, yP - 10, paint);
+           // g.drawText(String.valueOf((int) health), xP + width / 3, yP - 10, paint);
         }
         Iterator i = bullets.iterator();
 

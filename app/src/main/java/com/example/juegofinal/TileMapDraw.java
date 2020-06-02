@@ -201,6 +201,18 @@ public class TileMapDraw {
                 e.setAttacking(true);
             }
         }
+
+        //draw powerups
+
+        Iterator powerUp = map.getPowerUps();
+
+        while(powerUp.hasNext()){
+            PowerUp P = (PowerUp)powerUp.next();
+            P.draw(g,offsetX,offsetY);
+        }
+
+
+
     }
 
 }
