@@ -13,6 +13,9 @@ public class Enemy2 extends Enemy {
 
     private int dx,dy,speed;
 
+    /**
+     * looks for a sprite to aim and if possible shots -> addbullet
+     */
     private void setGoal(Sprite s){
         int angle = getAngle(s);
         if(bulletsTimer < bulletsRate){
@@ -24,6 +27,9 @@ public class Enemy2 extends Enemy {
         }
     }
 
+    /**
+     * enemy constructor a and b are the standing and dying animations
+     */
     Enemy2(GameView game, int x1, int y1, int w, int h, Animation a, Animation b){
         super(game,x1,y1,w,h,a,b, 300);
         dx = 0;
@@ -31,6 +37,9 @@ public class Enemy2 extends Enemy {
         speed = tile_size/17;
     }
 
+    /**
+     * this enemy shoots to the player. needs to iterate and update its bullets.
+     */
     @Override
     public void update() {
         //update x and y and curr
@@ -65,49 +74,7 @@ public class Enemy2 extends Enemy {
         //animation tick
         curr.update();
 
-        /*float newX = x, newY = y;
 
-
-        if(isAttacking()) {
-            newX = x + dx;
-            newY = y + dy;
-        }
-
-        //collision with tiles and end of map
-
-        //x movement check
-        Point tile = getTileCollision(newX, y);
-
-        if (tile == null) {
-            x = (int) newX;
-        } else {
-            // line up with the tile boundary
-            if (dx > 0) {
-                x = game.getRenderer().tilesToPixels(tile.x) - realW - ((getWidth() - realW) / 2);
-            } else if (dx < 0) {
-                x = game.getRenderer().tilesToPixels(tile.x + 1) - ((getWidth() - realW) / 2);
-            }
-
-            dx = 0;
-        }
-
-        //y movement check
-        tile = getTileCollision(x, newY);
-
-        if (tile == null) {
-            y = (int) newY;
-        } else {
-            // line up with the tile boundary
-            if (dy > 0) {
-                y = game.getRenderer().tilesToPixels(tile.y) - realH - ((getHeight() - realH) / 2);
-            } else if (dy < 0) {
-                y = game.getRenderer().tilesToPixels(tile.y + 1) - ((getHeight() - realH) / 2);
-            }
-
-            dy = 0;
-        }
-
-*/
         if(dying && System.currentTimeMillis()>= time + curr.getLength()*curr.getSpeed() -20){  //dying animation is over -> remove
             readyToRemove = true;
         }

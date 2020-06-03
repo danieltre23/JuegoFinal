@@ -1,11 +1,5 @@
 package com.example.juegofinal;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -20,23 +14,16 @@ public class TileMap {
     public int goalY;
     private Grid grid;
 
-    public void addPowerUp(PowerUp s){
-        powerups.add(s);
-    }
-    public void removePowerUp(PowerUp s){
-        powerups.remove(s);
-    }
-    public Iterator getPowerUps(){
-        return powerups.iterator();
-    }
-
+    /**
+     * Grid class used for the pathfinding. Based on the actual map TileMap (needs to be loaded)
+     */
     public void setGrid(){
 
         int width = getWidth();
         int height = getHeight();
         boolean[][] tiles = new boolean[width][height];
 
-// Fill it with values, false represents blocking tile
+    // Fill it with values, false represents blocking tile
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
                 tiles[x][y] = getTile(x,y)!=null? false : true;
@@ -48,9 +35,7 @@ public class TileMap {
     public Grid getGrid(){
     return grid;
     }
-    /**
-      CREATES A MAP WITH WIDTH AND HEIGHT AS NUMBER OF TILES
-     */
+
     public Tile getGoal(){
         return goal;
     }
@@ -59,6 +44,9 @@ public class TileMap {
         return enemies.size();
 
     }
+    /**
+     CREATES A MAP WITH WIDTH AND HEIGHT AS NUMBER OF TILES
+     */
     TileMap(int width, int height){
         tiles = new Tile[width][height];
         enemies = new LinkedList();
@@ -149,6 +137,25 @@ public class TileMap {
      */
     public Iterator getEnemies() {
         return enemies.iterator();
+    }
+
+    /**
+     * add powerup to this map
+     */
+    public void addPowerUp(PowerUp s){
+        powerups.add(s);
+    }
+    /**
+     * remove powerup to this map
+     */
+    public void removePowerUp(PowerUp s){
+        powerups.remove(s);
+    }
+    /**
+     * returns an iterator to iterate the powerups list
+     */
+    public Iterator getPowerUps(){
+        return powerups.iterator();
     }
 
     public boolean noEnemies() { return enemies.size() == 0; }

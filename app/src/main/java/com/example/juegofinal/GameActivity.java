@@ -42,6 +42,9 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * change the joystick view or add it in the first place
+     */
     private void change(int x, int y){
 
         Log.i("x,y", "" +x+" "+ y);
@@ -94,8 +97,6 @@ public class GameActivity extends AppCompatActivity {
         tile = point.x/10;
         gameView = new GameView(this, screenW, screenH,tile, nivel, health);
         gameView.setOnTouchListener(gameViewListener);
-
-
 
         params = new RelativeLayout.LayoutParams(tile*4, tile*4);
 

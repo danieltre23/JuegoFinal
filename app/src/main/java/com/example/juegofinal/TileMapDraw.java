@@ -1,36 +1,25 @@
 package com.example.juegofinal;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Rect;
-
 import java.util.Iterator;
-import static com.example.juegofinal.GameView.tile_bit;
 import static com.example.juegofinal.GameView.tile_size;
 
 /**
  The TileMapRenderer class draws a TileMap on the screen.
  It draws all tiles, sprites, and an optional background image
- centered around the position of the player.
+ centered around the position of the player. Vertically.
 
- <p>If the width of background image is smaller the width of
- the tile map, the background image will appear to move
- slowly, creating a parallax background effect.
+ <p>Horizontally we used fixed number of tiles that always fit the
+ user's screen
 
  <p>Also, three static methods are provided to convert pixels
  to tile positions, and vice-versa.
 
- <p>This TileMapRender uses a tile size of 64.
+ <p>This TileMapRender uses a tile size depending on the user screen
  */
 public class TileMapDraw {
-
-
 
     private Bitmap background;
     private Bitmap black;
@@ -62,11 +51,6 @@ public class TileMapDraw {
      Converts a tile position to a pixel position.
      */
     public  int tilesToPixels(int numTiles) {
-        // no real reason to use shifting here.
-        // it's slightly faster, but doesn't add up to much
-        // on modern processors.
-        //return numTiles << tile_bit;
-
         // use this if the tile size isn't a power of 2:
          return numTiles * tile_size;
     }
@@ -89,7 +73,7 @@ public class TileMapDraw {
     }
 
     /**
-     Draws the specified TileMap.
+     Draws the specified TileMap. All assets
      */
     public void draw(Canvas g, TileMap map,
                      int screenWidth, int screenHeight)
@@ -99,31 +83,14 @@ public class TileMapDraw {
         int mapWidthP = tilesToPixels(map.getWidth());
         int mapHeightP = tilesToPixels(map.getHeight());
 
-        // get the scrolling position of the map
-
-
-         /*int offsetX = screenWidth / 2 - Math.round(player.getX()) - TILE_SIZE;
-        offsetX = Math.min(offsetX, 0);
-        offsetX = Math.max(offsetX, screenWidth - mapWidth);
-          int offsetY = screenHeight - tilesToPixels(map.getHeight());
-        */
-
-
-
          //x offset for enemies and tiles
-        int offsetX = screenWidth/2 - Math.round(player.getX()) - 128;
-        offsetX = Math.min(offsetX, 0);
-        offsetX = Math.max(offsetX, screenWidth - mapWidthP);
-        offsetX=-tile_size/2;
+        int offsetX = -tile_size/2;
 
         // get the y offset based on the player position
 
         int offsetY = screenHeight/2 - Math.round(player.getY());
-
         offsetY = Math.min(offsetY, 0);
         offsetY = Math.max(offsetY, screenHeight - mapHeightP);
-
-
 
 
          // draw black background, if needed
@@ -134,14 +101,10 @@ public class TileMapDraw {
         }
 
 
-
-
         // draw parallax background image
         if (background != null) {
 
            int  x = offsetX *(screenWidth - background.getWidth())/(screenWidth - mapWidthP);
-
-
             int y  = offsetY ; //cm
 
             g.drawBitmap(background, x, y, paint);
@@ -149,19 +112,10 @@ public class TileMapDraw {
 
         // draw the visible tiles
 
-
-
-
         int firstTileY = pixelsToTiles(-offsetY);
         int lastTileY = firstTileY + pixelsToTiles(screenHeight)+1;
-
-
         int firstTileX = pixelsToTiles(-offsetX);
         int lastTileX =  firstTileX + pixelsToTiles(screenWidth)+1;
-
-
-
-
 
         for (int y=firstTileY; y<=lastTileY; y++) {
             for (int x=firstTileX; x <= lastTileX; x++) {
@@ -175,6 +129,7 @@ public class TileMapDraw {
 
         Tile tile = map.getGoal();
 
+        // if no enemies draw the goal tile
         if(map.getEnemyN()==0){
             tile.update();  //caco
             tile.draw(g, tile.getX() + offsetX, tile.getY()+ offsetY);
@@ -183,7 +138,7 @@ public class TileMapDraw {
         // draw player
         player.draw(g,offsetX,offsetY);
 
-        // draw enemies
+        // draw all enemies
         Iterator i = map.getEnemies();
 
         while (i.hasNext()) {

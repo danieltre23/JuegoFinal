@@ -66,7 +66,7 @@ public abstract class Enemy extends Sprite {
     }
 
     public void addBullet(int angle){
-        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 30,bul,20,20));
+        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 50,bul,20,20));
     }
 
     public Iterator getBullets() {
@@ -77,6 +77,9 @@ public abstract class Enemy extends Sprite {
         bullets.remove(b);
     }
 
+    /**
+     * enemy constructor
+     */
     Enemy(GameView game, int x1, int y1, int w, int h, Animation a, Animation b, int healT){
         super(x1,y1,w,h,w,h,game);
         attacking = false;
@@ -108,6 +111,9 @@ public abstract class Enemy extends Sprite {
         attacking = a;
     }
 
+    /**
+     * start the countdown of the dying animation
+     */
     public void kill(){
         GameView.play(soundPool,sound1,0.4);
         dying=true;
@@ -119,6 +125,12 @@ public abstract class Enemy extends Sprite {
     public Animation getAnim(){
         return curr;
     }
+
+
+      /**
+     enemy draw. offsetX and offsetY needed. enemy x and y are from map, not screen
+       enemies have a health bar
+     */
 
     @Override
     public void draw(Canvas g, int offsetX, int offsetY){

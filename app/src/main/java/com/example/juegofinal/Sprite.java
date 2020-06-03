@@ -100,10 +100,16 @@ public abstract class Sprite {
      */
     public abstract void draw(Canvas canvas, int offsetX, int offsetY);
 
+    /**
+     * returns the rect objecto of the sprite. Use realW and realH for objects smaller than the image.
+     */
     Rect getCollisionShape () {
         return new Rect(x + (width-realW)/2, y +(height-realH)/2, x + (width-realW)/2 + realW, y +(height-realH)/2 + realH);
     }
 
+    /**
+     * returns the colsest tile using round. and the percentage the sprite is in that tile
+     */
     protected Pair<Integer,Integer> closestTile(int pixels){
 
         float raw = (float)pixels/tile_size;
@@ -120,6 +126,9 @@ public abstract class Sprite {
         return new Pair(round, percentage==0? 100:percentage);
     }
 
+    /**
+     * checks if the newx or newy intersects with a tile or with the end of the map
+     */
     public Point getTileCollision(float newX, float newY)
     {
         int sizeOffSetX =  (getWidth()-realW)/2;
@@ -156,10 +165,16 @@ public abstract class Sprite {
         return null;
     }
 
+    /**
+     distance between two sprites
+     */
     public int getDistance(Sprite s) {
         return (int) Math.sqrt((s.getY()+s.getHeight()/2 - y-getHeight()/2) * (s.getY()+s.getHeight()/2 - y-getHeight()/2) + (s.getX() + s.getWidth()/2 - x - getWidth()/2) * (s.getX() + s.getWidth()/2 - x - getWidth()/2));
     }
 
+    /**
+     angle between two sprites (math "graphic" angle)
+     */
     public int getAngle(Sprite s) {
 
         float angle = (float) Math.toDegrees(Math.atan2(y+getHeight()/2-s.getY()-s.getHeight()/2, s.getX()+s.getWidth()/2-x-getWidth()/2));

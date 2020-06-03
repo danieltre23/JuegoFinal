@@ -12,11 +12,17 @@ public class PowerUp extends Sprite {
         b = a;
     }
 
+    /**
+     * static bitap do not need update
+     */
     @Override
     public void update(){
 
     }
 
+    /**
+     * draw image based on the ofsetx and offsety
+     */
     @Override
     public  void draw(Canvas canvas, int offsetX, int offsetY){
         canvas.drawBitmap(b, x+ offsetX, y+offsetY,null);

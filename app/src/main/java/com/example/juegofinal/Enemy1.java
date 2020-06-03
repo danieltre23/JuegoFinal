@@ -13,19 +13,19 @@ public class Enemy1 extends Enemy {
 
     private int dx,dy,speed;
 
-    private void setGoal(Sprite s){
-        int angle = getAngle(s);
-        dx = (int) (Math.cos(angle*3.14/180) * speed);
-        dy = (int) (Math.sin(angle*3.14/180) * speed * -1);
-    }
-
+    /**
+     * enemy constructor a and b are the standing and dying animations
+     */
     Enemy1(GameView game, int x1, int y1, int w, int h, Animation a, Animation b){
         super(game,x1,y1,w,h,a,b, 300);
         dx = 0;
         dy = 0;
-        speed = tile_size/19;
+        speed = tile_size/13;
     }
 
+    /**
+     * given the current point and the first point found by the pathfinding algorithm updates dx and dy
+     */
     private void updateDXDY(Point2D p1, Point2D p2){
         if(p2.x>p1.x){
             dx=1;
@@ -50,6 +50,9 @@ public class Enemy1 extends Enemy {
     }
 
 
+    /**
+     * uses pathfinding to update its new speed directions. follows the player
+     */
     @Override
     public void update() {
         //update x and y and curr

@@ -8,9 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,6 +21,7 @@ public class Player extends Sprite {
 
 
     private boolean playing;
+    private int dx,dy;
     private Animation curr;
     private Animation last;
     private Animation []anims;
@@ -39,6 +38,7 @@ public class Player extends Sprite {
     private int bulletsRate;
     private SoundPool soundPool;
     private int sound1,sound2,sound3,sound4;
+    private int dir;
 
 
     public double getHealth() {
@@ -57,50 +57,33 @@ public class Player extends Sprite {
     public double getFullHealth() {
         return fullHealth;
     }
-
-    public void setFullHealth(int fullHealth) {
-        this.fullHealth = fullHealth;
-    }
-
-    private int dx,dy;
-
-    public int getDx() {
-        return dx;
-    }
-
     public void setDx(int dx) {
         this.dx = dx;
     }
-
-    public int getDy() {
-        return dy;
-    }
-
     public void setDy(int dy) {
         this.dy = dy;
     }
 
-    public int getDir() {
-        return dir;
-    }
-
-    public void setDir(int dir) {
-        this.dir = dir;
-    }
-
+    /**
+     * add a bullet on specified angle
+     */
     public void addBullet(int angle){
+        //play sound of shooting
         GameView.play(soundPool,sound2,0.6);
         playing = false;
         bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65,bul,tile_size/2, (int)(((float)getHeight()/getWidth())*(tile_size/2))));
     }
 
+    /**
+     * used by enemies update to reduce player health
+     */
     public void hit() {
         if(!hurting) {setHealth((int) (health-20));}
     }
 
-    private int dir;
-
-
+    /**
+     player constructor
+     */
     Player(GameView game, int x1, int y1, int w, int h, Animation []a){
         super(x1,y1,w,h, w/2,(int)(h*1.2/2.0),game);
         dx=0;
@@ -134,12 +117,11 @@ public class Player extends Sprite {
         return curr;
     }
 
-    /*
+    /**
+     Directions of the player 8 movements and standing. Choose the closest angle given by the joystick listener
     1 2 3
     4 0 5
     6 7 8
-
-
   */
 
     public void updateDir(int angle){
@@ -171,6 +153,9 @@ public class Player extends Sprite {
 
     }
 
+    /**
+     * player update needs to iterate trough the enemies, powerups and trough its bullets to update any necessary change
+     */
 
     @Override
     public void update() {
@@ -233,7 +218,7 @@ public class Player extends Sprite {
             dy = 0;
         }
 
-        //enemies collision check
+        //enemies  check to damage player and to choose the target
         Iterator i = game.getMap().getEnemies();
 
         int minDistance = 2147483647;
@@ -244,9 +229,7 @@ public class Player extends Sprite {
 
             e = (Enemy) i.next();
 
-            e.update();
             if (!hurting && !e.isDying() && Rect.intersects(e.getCollisionShape(), getCollisionShape())) {
-                // posible sonido o animacion
                 setHealth((int) (health-20));
                 timeHurting = System.currentTimeMillis();
                 hurting = true;
@@ -263,6 +246,7 @@ public class Player extends Sprite {
             bulletsTimer += 1;
         }
 
+        // if standing and there are enemies shot the closest
         if(dx == 0 && dy == 0) {
             updateDir(newAngle);
             if(bulletsTimer >= bulletsRate && !game.getMap().noEnemies()) {
@@ -288,6 +272,7 @@ public class Player extends Sprite {
         Iterator it = bullets.iterator();
         List<Bullet> removeBullets = new ArrayList<Bullet>();
 
+        //check bullets colision
         while (it.hasNext()) {
             Bullet b = (Bullet) it.next();
             boolean col = b.update2();
@@ -311,12 +296,12 @@ public class Player extends Sprite {
             }
         }
 
+        // remove safely
         for(Bullet bi : removeBullets){
             bullets.remove(bi);
         }
-        //powerups
 
-
+        // check powerups
         Iterator itP = game.getMap().getPowerUps();
 
 
@@ -331,12 +316,17 @@ public class Player extends Sprite {
             }
         }
 
+        // remove safely
         for(PowerUp pi : removePowerUps){
             game.getMap().removePowerUp(pi);
         }
 
     }
 
+    /**
+     player draw. offsetX and offsetY needed. Player x and y are from map, not screen
+     player has a health bar
+     */
 
     @Override
     public void draw(Canvas g, int offsetX, int offsetY){

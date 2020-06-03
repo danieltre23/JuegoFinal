@@ -33,6 +33,9 @@ public class Bullet extends Sprite {
         b= Bitmap.createBitmap(b, 0, 0, b.getWidth(),b.getHeight(), matrix, true);
     }
 
+    /**
+     * function to get angle to rotate needle
+     */
     private int getRotateAngle(int angle){
         if(angle>=0 && angle<=90){
             return 90-angle;
@@ -40,12 +43,16 @@ public class Bullet extends Sprite {
             return 450-angle;
         }
     }
+
     @Override
     public void update() {
         x += dx;
         y += dy;
     }
 
+    /**
+     * bullet update, moves. return true if collides
+     */
     public boolean update2() {
         float newX, newY;
 
@@ -77,6 +84,9 @@ public class Bullet extends Sprite {
         return false;
     }
 
+    /**
+    draw the bullet image
+     */
     @Override
     public void draw(Canvas canvas, int offsetX, int offsetY) {
         int xP = Math.round(getX())+offsetX;

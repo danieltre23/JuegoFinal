@@ -5,8 +5,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.LightingColorFilter;
@@ -14,7 +12,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.Log;
 import static com.example.juegofinal.GameView.tile_size;
-import static com.example.juegofinal.GameView.tile_bit;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,32 +29,9 @@ public class ResourceManager {
 
 
     /**
-     Converts a pixel position to a tile position.
-     */
-    public  int pixelsToTiles(float pixels) {
-        return pixelsToTiles(Math.round(pixels));
-    }
-
-
-    /**
-     Converts a pixel position to a tile position.
-     */
-    public  int pixelsToTiles(int pixels) {
-        // use shifting to get correct values for negative pixels
-
-        return (int)Math.floor((float)pixels / tile_size);
-    }
-
-
-    /**
      Converts a tile position to a pixel position.
      */
     public  int tilesToPixels(int numTiles) {
-        // no real reason to use shifting here.
-        // it's slightly faster, but doesn't add up to much
-        // on modern processors.
-
-
         // use this if the tile size isn't a power of 2:
         return numTiles * tile_size;
     }
@@ -66,20 +40,22 @@ public class ResourceManager {
         return background;
     }
 
+    /**
+     * Load Images from drawables to create bitmaps and animations
+     */
     void initAnimations(){
-        Bitmap x,y,w,z;
+        Bitmap x;
 
-
+        // powerup image
         bitmapPowerUp = BitmapFactory.decodeResource(game.getResources(), R.drawable.oie_transparent);
         bitmapPowerUp = Bitmap.createScaledBitmap(bitmapPowerUp,tile_size,tile_size,false);
 
-        //imagenes a b y c
+        //image a b c d e l u r
         bA = BitmapFactory.decodeResource(game.getResources(),R.drawable.platform_tile_021);
         bA = Bitmap.createScaledBitmap(bA, tile_size, tile_size,false);
 
         bB = BitmapFactory.decodeResource(game.getResources(),R.drawable.platform_tile_026);
         bB = Bitmap.createScaledBitmap(bB, tile_size, tile_size,false);
-        //bB = TileMapDraw.createImage(tile_size,tile_size, Color.rgb(9,46,44));
 
         bC = BitmapFactory.decodeResource(game.getResources(),R.drawable.platform_tile_035);
         bC = Bitmap.createScaledBitmap(bC, tile_size, tile_size,false);
@@ -102,9 +78,7 @@ public class ResourceManager {
 
         Bitmap []framesG = {null,null,null,null};
 
-
-
-
+        // goal (star) animation
         for(int i= 1; i<=4; i++){
             file = "star" + i;
             x = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier(file, "drawable", game.pac));
@@ -121,11 +95,11 @@ public class ResourceManager {
 
         Bitmap image1, crop1;
 
-
         image1 = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier("virus", "drawable", game.pac));
         double dist1[] = {0,(68.0/322)*image1.getWidth(),(132.0/322)*image1.getWidth(),(199.0/322)*image1.getWidth(),(262.0/322)*image1.getWidth(), (322.0/322)*image1.getWidth()};
         Log.i("virus", " "+ image1.getWidth());
 
+        //enemy animation
         for(int j = 0; j<=4; j++){
             crop1 = Bitmap.createBitmap(image1, (int) (dist1[j]), 0, (int) (dist1[j+1]-dist1[j]) , image1.getHeight()/2);
             crop1 = Bitmap.createScaledBitmap(crop1, enemySize, enemySize,false);
@@ -138,6 +112,7 @@ public class ResourceManager {
         image1 = BitmapFactory.decodeResource(game.getResources(), game.getResources().getIdentifier("virus", "drawable", game.pac));
         double dist2[] = {0,(60.0/322)*image1.getWidth(),(107.0/322)*image1.getWidth(),(142.0/322)*image1.getWidth(),(165.0/322)*image1.getWidth(),(200.0/322)*image1.getWidth(),(234.0/322)*image1.getWidth()};
 
+        //enemy dying animation
         for(int j = 0; j<=5; j++){
             crop1 = Bitmap.createBitmap(image1, (int)(dist2[j]), image1.getHeight()/2, (int) (dist2[j+1]-dist2[j]) ,image1.getHeight()/2);
             crop1 = Bitmap.createScaledBitmap(crop1, enemySize, enemySize,false);
@@ -147,12 +122,11 @@ public class ResourceManager {
         animED = new Animation (framesE1, 110);
 
 
+        // player animation (8 movements and standing)
         animP1 = new Animation[9] ;
         Bitmap[] framesP1 = new Bitmap[2];
 
-
         Bitmap image, crop;
-
 
                 image = BitmapFactory.decodeResource(game.getResources(), R.drawable.npa7);
                 crop = Bitmap.createBitmap(image, 0, 0, image.getWidth()/4, image.getHeight());
@@ -179,12 +153,10 @@ public class ResourceManager {
         }
 
     }
-    /*
-        1 2 3
-        4 0 5
-        6 7 8
-        */
 
+    /**
+     constructor
+     */
     public ResourceManager(GameView g){
 
         game = g;
@@ -198,7 +170,9 @@ public class ResourceManager {
 
     }
 
-
+    /**
+    darkens an image used to visual purposes
+     */
     private Bitmap darkenBitMap(Bitmap bitmap) {
         int lighten = 0;
         Bitmap bmpGrayscale = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -225,6 +199,11 @@ public class ResourceManager {
 
     }
 
+    /**
+     creates the background made of "tiles" as one image to the renderer to be faster.
+     The background depends on the width and height of the actual map but has fixed number
+     row of tiles above and below it. (backgroundheightsize)
+     */
     public void setB(int width, int height){
 
         //outside
@@ -237,7 +216,7 @@ public class ResourceManager {
 
         Bitmap accumV = accumH;
 
-        for(int i = 0; i<13;i++){
+        for(int i = 0; i<backgroundheightSize-1;i++){
             accumV = combineBitmapsV(accumV,accumH);
         }
 
@@ -260,9 +239,13 @@ public class ResourceManager {
             accumV1 = combineBitmapsV(accumV1,accumH1);
         }
 
+        // join outside / inside /outside
         background = combineBitmapsV(combineBitmapsV(accumV,accumV1),accumV);
     }
 
+    /**
+     use to create an image of one color only. with specified dimensions
+     */
     public static Bitmap createImage(int width, int height, int color) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -296,6 +279,13 @@ public class ResourceManager {
         return combined;
     }
 
+    /**
+     * <p>This method combines two images into one by rendering them vertically.</p>
+     *
+     * @param up The image that goes up on the combined image
+     * @param down The image that goes down  of the combined image.
+     * @return The combined image.
+     */
     private Bitmap combineBitmapsV(final Bitmap up, final Bitmap down){
         // Get the size of the images combined side by side.
         int height = down.getHeight() + up.getHeight();
@@ -312,6 +302,14 @@ public class ResourceManager {
 
         return combined;
     }
+
+    /**
+     * Reads a txt file with players, tiles, enemies, powerups and different dimensions to save it into
+     * a new map and return it
+     * @param id the raw resource id to acces it
+     * @param res resources
+     * @return the new map with all assets loaded
+     */
     public TileMap loadMap(int id, Resources res) throws IOException {
         ArrayList lines = new ArrayList();
         int width = 0;
@@ -341,16 +339,16 @@ public class ResourceManager {
         // parse the lines to create a TileEngine
         height = lines.size();
 
+        // the height is considering the fixed number of rows below and above the map
         int fullHeight = height+backgroundheightSize*2;
 
-        //???
-        bD = BitmapFactory.decodeResource(game.getResources(),R.drawable.platform_tile_011);
-        bD = Bitmap.createScaledBitmap(bD, tile_size, tile_size,false);
-
+        // create new map with width and the fullheight. It is important so that the renderer could follow up the player to the edges of the map.
         TileMap newMap = new TileMap(width,fullHeight);
+
         String line;
 
         for (int y=0; y<fullHeight; y++) {
+            //only read the actual map
             if(y>=backgroundheightSize && y<height+backgroundheightSize) {
                  line = (String) lines.get(y-backgroundheightSize);
             }
@@ -360,9 +358,7 @@ public class ResourceManager {
             for (int x=0; x<line.length(); x++) {
                 char ch = line.charAt(x);
 
-                // check if the char represents tile A, B, C etc.
-
-                // check if the char represents a sprite
+                // check if the char represents tile A, B, C OR ENEMIES OR POWERUPS
                  if (ch == 'A') {
                     newMap.setTile(x,y, new Tile(game, tilesToPixels(x), tilesToPixels(y),bA));
                  }
@@ -401,10 +397,10 @@ public class ResourceManager {
                  }
             }
         }
-        // create background (static tiles outside the original map)
+        // create background (static tiles outside the original map) and inside background too
         setB(width,height);
 
-        // add the player to the map (position with map)
+        // add the player to the map (position with map, below)
         newMap.setPlayer(new Player(game, tilesToPixels(width)/2 - playerSize/2, tilesToPixels(fullHeight-16)-playerSize, playerSize, playerSize,  animP1));
 
         Log.i("a", "mapa leido");

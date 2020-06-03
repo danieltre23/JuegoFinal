@@ -7,33 +7,27 @@ import static com.example.juegofinal.GameView.tile_size;
 public class Tile extends Sprite {
 
     private Bitmap normal;
-    private boolean destroyed;
     private Animation curr;
 
+    /**
+     * if recieved an animation as an argument this tile would be the goal
+     */
 
     Tile(GameView game, int x1, int y1, Bitmap a){
         super(x1,y1,tile_size ,tile_size, tile_size,tile_size, game);
-        destroyed = false;
         normal = a;
         curr = null;
     }
 
     Tile(GameView game, int x1, int y1, int w, int h, Animation a){
         super(x1,y1,w ,h, w,h, game);
-        destroyed = false;
         curr = a;
         normal = null;
     }
 
-
-    public boolean isDestroyed() {
-        return destroyed;
-    }
-
-    public void setDestroyed(boolean destroyed) {
-        this.destroyed = destroyed;
-    }
-
+    /**
+     * update the animation or the bitmap
+     */
 
     @Override
     public void update() {
@@ -41,6 +35,9 @@ public class Tile extends Sprite {
         curr.update();
     }
 
+    /**
+     * draw the bitamp or the animation if this is the goal tile
+     */
     @Override
     public void draw(Canvas canvas, int xT, int yT) {
         if (normal != null) {

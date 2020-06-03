@@ -2,14 +2,12 @@ package com.example.juegofinal;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.view.MotionEvent;
 import android.view.SurfaceView;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,7 +50,6 @@ public class GameView extends SurfaceView implements Runnable {
         this.screenY = screenY;
 
         tile_size = tileS;
-       // tile_bit = Math.log(tile_size)/Math.log(2);
 
         paint = new Paint();
         paint.setTextSize(128);
@@ -62,9 +59,7 @@ public class GameView extends SurfaceView implements Runnable {
         //create manager
         manager = new ResourceManager(this);
 
-        //load first map ?
-
-
+        //load current map with the manager
         try {
             switch (nivel){
                 case 0:
@@ -101,8 +96,12 @@ public class GameView extends SurfaceView implements Runnable {
                     map = manager.loadMap(R.raw.map10, getResources());
                     break;
             }
+            // create Grid for the pathfinding
             map.setGrid();
+
             System.out.println("El health es " + health);
+
+            //set player health with the current value
             map.getPlayer().setHealth(health);
         }
         catch (IOException ex) {
@@ -111,33 +110,29 @@ public class GameView extends SurfaceView implements Runnable {
 
         }
 
+        //create map renderer
         renderer = new TileMapDraw(manager.getBackground());
-        soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
+        //win and lose sounds
+        soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         winSound = soundPool.load(getActivity(), R.raw.win, 1);
         loseSound = soundPool.load(getActivity(),R.raw.lose,1);
 
     }
+
     public TileMapDraw getRenderer(){
         return renderer;
     }
-
     public TileMap getMap(){
         return map;
     }
-
-    public int getScreenX() {
-        return screenX;
-    }
-
-    public int getScreenY() {
-        return screenY;
-    }
-
     public Paint getPaint() {
         return paint;
     }
 
+    /**
+     game run, while playing calls the update and draw
+     */
     @Override
     public void run() {
 
@@ -152,20 +147,19 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
+    /**
+     game update needs to update every enemy and the main player
+     */
     private void update () {
 
         //update all assets from map
-
-        //tile update in mapRenderer
-
-
 
         Iterator i = map.getEnemies();
 
         Enemy e;
         List<Enemy> removeEnemies = new ArrayList<Enemy>();
 
-
+        //enemies update
         while (i.hasNext()) {
             e = (Enemy) i.next();
             e.update();
@@ -174,45 +168,33 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
 
+        // safely remove from the linkedlist to not cause an exception
         for(Enemy en : removeEnemies){
             map.removeEnemy(en);
         }
 
+        //player update
         map.getPlayer().update();
+
+        //if player gets to goal with no enemies -> win
         if(map.getEnemyN()==0 && Rect.intersects(map.getPlayer().getCollisionShape(), map.getGoal().getCollisionShape())){
             goToWin();
         }
+        //if player dies -> lose
         if(map.getPlayer().getHealth()<=0){
             goToLose();
         }
-        //int y = -1, w = map.getWidth(), x, h = map.getHeight();
-
-       /* while(y++<h){
-            x=-1;
-            while(x++<w){
-                Tile t = map.getTile(x,y);
-                if(t!=null){
-                    t.update();
-                }
-            }
-        }*/
-
-
-
-
-
     }
 
+    /**
+    the game draw is made mainly by the TileMapDraw Class so we just call its draw function with the current map
+     */
     private void draw () {
 
         if (getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
-
-            //draw background
-            //canvas.drawBitmap(bg,0,0,paint);
-
+            //use renderer
             renderer.draw(canvas, map, screenX, screenY);
-
             getHolder().unlockCanvasAndPost(canvas);
         }
 
@@ -226,6 +208,9 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    /**
+     resume game
+     */
     public void resume () {
 
         isPlaying = true;
@@ -234,11 +219,17 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
+    /**
+     Play any sound once give the soundpool
+     */
     public static void play(SoundPool p , int id, double intensity){
         if(soundOn){
             p.play(id,(float)intensity,(float)intensity,1,0,1);
         }
     }
+    /**
+     pause game
+     */
     public void pause () {
 
         try {
@@ -250,6 +241,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
+    /**
+    start the win activity (screen)
+     */
     public void goToWin () {
         map.getPlayer().getSoundPool().autoPause();
         play(soundPool, winSound,0.6);
@@ -261,6 +255,9 @@ public class GameView extends SurfaceView implements Runnable {
         activity.finish();
     }
 
+    /**
+      start the lose activity (screen)
+     */
     public void goToLose () {
         map.getPlayer().getSoundPool().autoPause();
         play(soundPool, loseSound,0.6);
