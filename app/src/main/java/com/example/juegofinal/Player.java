@@ -12,8 +12,10 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import static com.example.juegofinal.GameView.tile_size;
 
@@ -93,7 +95,7 @@ public class Player extends Sprite {
     }
 
     public void hit() {
-        setHealth((int) (health-20));
+        if(!hurting) {setHealth((int) (health-20));}
     }
 
     private int dir;
@@ -284,6 +286,7 @@ public class Player extends Sprite {
         }
 
         Iterator it = bullets.iterator();
+        List<Bullet> removeBullets = new ArrayList<Bullet>();
 
         while (it.hasNext()) {
             Bullet b = (Bullet) it.next();
@@ -294,7 +297,7 @@ public class Player extends Sprite {
                 while (ie.hasNext()) {
                     Enemy en = (Enemy) ie.next();
                     if (Rect.intersects(en.getCollisionShape(), b.getCollisionShape())) {
-                        bullets.remove(b);
+                        removeBullets.add(b);
                         en.damage(20.0 * 3);
                         if (en.getHealth() <= 0) {
                             en.kill();
@@ -304,25 +307,33 @@ public class Player extends Sprite {
 
             }
             else{
-                bullets.remove(b);
+                removeBullets.add(b);
             }
         }
 
+        for(Bullet bi : removeBullets){
+            bullets.remove(bi);
+        }
         //powerups
 
 
         Iterator itP = game.getMap().getPowerUps();
 
 
+        List<PowerUp> removePowerUps = new ArrayList<PowerUp>();
+
         while(itP.hasNext()){
             PowerUp P = (PowerUp)itP.next();
             if(Rect.intersects(getCollisionShape(),P.getCollisionShape())){
                 GameView.play(soundPool,sound4,1);
                 health += (int)((fullHealth - health)*0.7);
-                game.getMap().removePowerUp(P);
+                removePowerUps.add(P);
             }
         }
 
+        for(PowerUp pi : removePowerUps){
+            game.getMap().removePowerUp(pi);
+        }
 
     }
 
@@ -356,9 +367,7 @@ public class Player extends Sprite {
 
         while (i.hasNext()) {
             Bullet e = (Bullet)i.next();
-
             e.draw(g,offsetX,offsetY);
-
         }
 
     }
