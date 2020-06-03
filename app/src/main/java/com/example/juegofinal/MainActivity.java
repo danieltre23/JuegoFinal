@@ -23,9 +23,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //set layout
         setContentView(R.layout.activity_main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        //get sounds
         soundPool = new SoundPool(1,AudioManager.STREAM_MUSIC, 0);
         sound1 = soundPool.load(this, R.raw.backsound, 1);  //walking
         sound2 = soundPool.load(this, R.raw.coin, 1);  //walking
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         final ImageView iMusica =  findViewById(R.id.sonido);
 
+        //play sound if soundOn
         if(soundOn){
             iMusica.setImageResource(R.drawable.musicwhite);
             if(music.isPlaying()==false){
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
             iMusica.setImageResource(R.drawable.music);
         }
 
+        //set listener to toggle sound
         findViewById(R.id.sonido).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //go to gameActivity from level 0 and full health
         findViewById(R.id.jugar).setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View v) {

@@ -16,12 +16,6 @@
         <activity android:name=".Pause"
             android:theme="@style/AppTheme.noActionBar" />
         <activity
-            android:name=".Niveles"
-            android:theme="@style/AppTheme.noActionBar" />
-        <activity
-            android:name=".Settings"
-            android:theme="@style/AppTheme.noActionBar" />
-        <activity
             android:name=".GameActivity"
             android:theme="@style/AppTheme.noActionBar" />
         <activity

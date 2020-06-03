@@ -20,10 +20,12 @@ public class Ganaste extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ganaste);
 
+        //get parameters sent
         Intent myIntent = getIntent();
         final int nivel = myIntent.getExtras().getInt("nivel");
         final int health = myIntent.getExtras().getInt("health");
 
+        //get views
         final TextView textViewNivel = (TextView)findViewById(R.id.nivel);
         final TextView textViewFrase = (TextView)findViewById(R.id.frase);
         final ImageView imageView = (ImageView)findViewById(R.id.play);
@@ -41,6 +43,7 @@ public class Ganaste extends AppCompatActivity {
                 }
             });
         }else {
+            //Get random phrase to show
             String[] frases = {
                     "Ventila espacios cerrados para evitar los viruses",
                     "Lavate las manos frecuentemente",
@@ -54,6 +57,7 @@ public class Ganaste extends AppCompatActivity {
             int index = random.nextInt(frases.length);
             textViewFrase.setText(frases[index]);
 
+            //Go to gameActivity and send parameters
             imageView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {

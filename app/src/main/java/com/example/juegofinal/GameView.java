@@ -99,8 +99,6 @@ public class GameView extends SurfaceView implements Runnable {
             // create Grid for the pathfinding
             map.setGrid();
 
-            System.out.println("El health es " + health);
-
             //set player health with the current value
             map.getPlayer().setHealth(health);
         }
@@ -249,7 +247,6 @@ public class GameView extends SurfaceView implements Runnable {
         play(soundPool, winSound,0.6);
         Intent nextLevel = new Intent(activity, Ganaste.class);
         nextLevel.putExtra("nivel", nivel);
-        System.out.println("El health es " + map.getPlayer().getHealth());
         nextLevel.putExtra("health", (int)map.getPlayer().getHealth());
         activity.startActivity(nextLevel);
         activity.finish();

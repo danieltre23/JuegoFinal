@@ -30,8 +30,9 @@ public class GameActivity extends AppCompatActivity {
         return new Rect(lastX, lastY, tile*4, tile*4);
     }
 
-
-
+    /**
+     * listen for touch
+     */
     private View.OnTouchListener gameViewListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent e) {
@@ -80,6 +81,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Get the parameters sent
         Intent myIntent = getIntent();
         int nivel = myIntent.getExtras().getInt("nivel");
         int health = myIntent.getExtras().getInt("health");
@@ -93,6 +95,7 @@ public class GameActivity extends AppCompatActivity {
         screenH = point.y;
         firstTime = true;
 
+        //add the gameview to the layout
         screenLayout = new RelativeLayout(this);
         tile = point.x/10;
         gameView = new GameView(this, screenW, screenH,tile, nivel, health);
@@ -105,6 +108,7 @@ public class GameActivity extends AppCompatActivity {
 
         joystick = (JoystickView) joystickLayout.findViewById(R.id.joystickView);
 
+        //listen for joystick movement
         joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
@@ -122,6 +126,7 @@ public class GameActivity extends AppCompatActivity {
         pauseBtnLayout = (RelativeLayout) inflater.inflate(R.layout.pausebtn, null, false);
         screenLayout.addView(pauseBtnLayout);
 
+        //pause listener
         pauseBtnLayout.findViewById(R.id.pause).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -153,6 +158,10 @@ public class GameActivity extends AppCompatActivity {
         System.gc();
     }
 
+    /**
+     * unbind when changing activity
+     * @param view
+     */
     private void unbindDrawables(View view) {
         if (view.getBackground() != null) {
             view.getBackground().setCallback(null);
