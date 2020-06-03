@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:text="Te han contagiado!"
+        android:text="¡Te han contagiado!"
         android:textAlignment="center"
         android:textColor="@color/colorTitles"
-        android:textSize="70dp"
+        android:textSize="50dp"
         />
 
     <TextView
@@ -25,9 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:text="Score: 800"
+        android:text="Quedate en casa"
+        android:background="@color/colorBackgroundLight"
         android:textColor="@color/colorTitles"
-        android:textSize="50dp"
+        android:textSize="30dp"
         android:layout_below="@+id/ganaste"
         />
 

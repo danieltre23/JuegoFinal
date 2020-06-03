@@ -46,7 +46,9 @@ public class Ganaste extends AppCompatActivity {
                     "Lavate las manos frecuentemente",
                     "Cubrete la boca al toser o estornudar",
                     "Evita tocarte la cara con las manos sucias",
-                    "Si estas enfermo, quedate en casa"
+                    "Si estas enfermo, quedate en casa",
+                    "No olvides tu cubrebocas",
+
             };
             Random random = new Random();
             int index = random.nextInt(frases.length);

@@ -23,10 +23,10 @@ public class Enemy2 extends Enemy {
     }
 
     Enemy2(GameView game, int x1, int y1, int w, int h, Animation a, Animation b){
-        super(game,x1,y1,w,h,a,b, 400);
+        super(game,x1,y1,w,h,a,b, 300);
         dx = 0;
         dy = 0;
-        speed = tile_size/10;
+        speed = tile_size/17;
     }
 
     @Override
@@ -51,7 +51,9 @@ public class Enemy2 extends Enemy {
             }
         }
 
-        setGoal(player);
+        if(isAttacking()) {
+            setGoal(player);
+        }
         //animation tick
         curr.update();
 
@@ -99,7 +101,7 @@ public class Enemy2 extends Enemy {
 
 */
         if(dying && System.currentTimeMillis()>= time + curr.getLength()*curr.getSpeed() -20){  //dying animation is over -> remove
-            game.getMap().removeEnemy(this);
+            readyToRemove = true;
         }
 
     }

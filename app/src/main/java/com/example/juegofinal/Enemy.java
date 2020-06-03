@@ -27,8 +27,13 @@ public abstract class Enemy extends Sprite {
     public int bulletsTimer;
     public int bulletsRate;
     private Bitmap bul;
+    protected boolean readyToRemove = false;
     private SoundPool soundPool;
     private int sound1,sound2;
+
+    public boolean isReadyToRemove(){
+        return readyToRemove;
+    }
 
     public boolean isDying() {
         return dying;
@@ -61,7 +66,7 @@ public abstract class Enemy extends Sprite {
     }
 
     public void addBullet(int angle){
-        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 65,bul,20,20));
+        bullets.add(new Bullet(x+getWidth()/2, y+getHeight()/2, game, angle, 30,bul,20,20));
     }
 
     public Iterator getBullets() {

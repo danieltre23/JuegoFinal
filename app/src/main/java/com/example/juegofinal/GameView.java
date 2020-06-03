@@ -12,6 +12,9 @@ import android.media.SoundPool;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import static com.example.juegofinal.MainActivity.soundOn;
 
@@ -155,6 +158,26 @@ public class GameView extends SurfaceView implements Runnable {
 
         //tile update in mapRenderer
 
+
+
+        Iterator i = map.getEnemies();
+
+        Enemy e;
+        List<Enemy> removeEnemies = new ArrayList<Enemy>();
+
+
+        while (i.hasNext()) {
+            e = (Enemy) i.next();
+            e.update();
+            if(e.isReadyToRemove()){
+                removeEnemies.add(e);
+            }
+        }
+
+        for(Enemy en : removeEnemies){
+            map.removeEnemy(en);
+        }
+
         map.getPlayer().update();
         if(map.getEnemyN()==0 && Rect.intersects(map.getPlayer().getCollisionShape(), map.getGoal().getCollisionShape())){
             goToWin();
@@ -162,8 +185,6 @@ public class GameView extends SurfaceView implements Runnable {
         if(map.getPlayer().getHealth()<=0){
             goToLose();
         }
-
-
         //int y = -1, w = map.getWidth(), x, h = map.getHeight();
 
        /* while(y++<h){

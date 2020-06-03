@@ -22,7 +22,9 @@ L         R
 L  1   1  R
 L         R
 L         R
-LBBB      R
+LBBB   BBBR
+L         R
+L         R
 L         R
 L         R
 DEEEEEEEEED

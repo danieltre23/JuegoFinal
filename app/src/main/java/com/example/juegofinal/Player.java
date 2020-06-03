@@ -193,8 +193,8 @@ public class Player extends Sprite {
 
         float newX, newY;
 
-        newX = x + dx * (tile_size / 3)/5;
-        newY = y + dy * (tile_size / 3)/5;
+        newX = x + dx * (tile_size / 3)/6;
+        newY = y + dy * (tile_size / 3)/6;
 
 
         //collision with tiles and end of map
@@ -236,9 +236,12 @@ public class Player extends Sprite {
 
         int minDistance = 2147483647;
         int newAngle = 0;
+        Enemy e;
 
         while (i.hasNext()) {
-            Enemy e = (Enemy) i.next();
+
+            e = (Enemy) i.next();
+
             e.update();
             if (!hurting && !e.isDying() && Rect.intersects(e.getCollisionShape(), getCollisionShape())) {
                 // posible sonido o animacion
@@ -315,7 +318,7 @@ public class Player extends Sprite {
             PowerUp P = (PowerUp)itP.next();
             if(Rect.intersects(getCollisionShape(),P.getCollisionShape())){
                 GameView.play(soundPool,sound4,1);
-                health += (int)((fullHealth - health)*0.5);
+                health += (int)((fullHealth - health)*0.7);
                 game.getMap().removePowerUp(P);
             }
         }

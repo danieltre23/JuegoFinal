@@ -23,7 +23,7 @@ public class Enemy1 extends Enemy {
         super(game,x1,y1,w,h,a,b, 300);
         dx = 0;
         dy = 0;
-        speed = tile_size/15;
+        speed = tile_size/19;
     }
 
     private void updateDXDY(Point2D p1, Point2D p2){
@@ -119,7 +119,7 @@ public class Enemy1 extends Enemy {
 
 
         if(dying && System.currentTimeMillis()>= time + curr.getLength()*curr.getSpeed() -20){  //dying animation is over -> remove
-            game.getMap().removeEnemy(this);
+           readyToRemove = true;
         }
 
     }
